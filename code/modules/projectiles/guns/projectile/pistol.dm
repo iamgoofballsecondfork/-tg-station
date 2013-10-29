@@ -156,3 +156,9 @@
 	icon_state = "silencer"
 	w_class = 2
 	var/oldsound = 0 //Stores the true sound the gun made before it was silenced
+
+
+/obj/item/weapon/gun/projectile/pistol/security
+	name = "\improper Security pistol"
+	desc = "A small, easily concealable gun issued to Nanotrasen Officers. Uses 10mm rounds."
+	origin_tech = "combat=2;materials=2"
