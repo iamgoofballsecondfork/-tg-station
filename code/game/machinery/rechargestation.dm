@@ -275,6 +275,14 @@
 				if(istype(O, /obj/item/device/lightreplacer))
 					var/obj/item/device/lightreplacer/LR = O
 					LR.Charge(occupant)
+				//Hunter
+				if(istype(O,/obj/item/weapon/reagent_containers/spray/alien/smoke))
+					if(O.reagents.get_reagent_amount("water") < 250)
+						O.reagents.add_reagent("water", 2)
+				//Warrior
+				if(istype(O,/obj/item/weapon/reagent_containers/spray/alien/stun))
+					if(O.reagents.get_reagent_amount("chloralhydrate") < 250)
+						O.reagents.add_reagent("chloralhydrate", 2)
 
 			if(occupant)
 				if(occupant.module)
@@ -286,5 +294,8 @@
 					var/obj/item/weapon/reagent_containers/spray/S = occupant.module.emag
 					if(S.name == "polyacid spray")
 						S.reagents.add_reagent("pacid", 2)
-					else if(S.name == "lube spray")
+					if(S.name == "Lube spray")
 						S.reagents.add_reagent("lube", 2)
+					else if(S.name == "acid synthesizer")
+						S.reagents.add_reagent("pacid", 2)
+						S.reagents.add_reagent("sacid", 2)

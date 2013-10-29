@@ -3,8 +3,8 @@
 	real_name = "Cyborg"
 	icon = 'icons/mob/robots.dmi'//
 	icon_state = "robot"
-	maxHealth = 100
-	health = 100
+	maxHealth = 300
+	health = 300
 	var/sight_mode = 0
 	var/custom_name = ""
 
@@ -58,7 +58,6 @@
 	var/obj/item/weapon/tank/internal = null	//Hatred. Used if a borg has a jetpack.
 
 
-
 /mob/living/silicon/robot/New(loc,var/syndie = 0)
 	spark_system = new /datum/effect/effect/system/spark_spread()
 	spark_system.set_up(5, 0, src)
@@ -74,6 +73,20 @@
 		cell = new /obj/item/weapon/cell(src)
 		cell.maxcharge = 7500
 		cell.charge = 7500
+
+	if(mmi != null)
+		if(mmi.alien)
+			laws = new /datum/ai_laws/alienmov()
+			scrambledcodes = 1
+			connected_ai = select_active_alien_ai()
+			/*alien_talk_understand = 1 How does talk aliums.
+			verbs += /mob/living/proc/alien_talk*/
+			if(connected_ai)
+				connected_ai.connected_robots += src
+				lawsync()
+				lawupdate = 1
+			else
+				lawupdate = 0
 
 	if(syndie)
 		laws = new /datum/ai_laws/antimov()
@@ -104,19 +117,6 @@
 			camera.status = 0
 	..()
 
-	//MMI stuff. Held togheter by magic. ~Miauw
-	mmi = new(src)
-	mmi.brain = new /obj/item/organ/brain(mmi)
-	mmi.brain.name = "[src.real_name]'s brain"
-	mmi.locked = 1
-	mmi.icon_state = "mmi_full"
-	mmi.name = "Man-Machine Interface: [src.real_name]"
-	mmi.brainmob = new(src)
-	mmi.brainmob.name = src.real_name
-	mmi.brainmob.real_name = src.real_name
-	mmi.brainmob.container = mmi
-	mmi.contents += mmi.brainmob
-
 	playsound(loc, 'sound/voice/liveagain.ogg', 75, 1)
 
 
@@ -133,7 +133,14 @@
 /mob/living/silicon/robot/proc/pick_module()
 	if(module)
 		return
-	var/mod = input("Please, select a module!", "Robot", null, null) in list("Standard", "Engineering", "Medical", "Miner", "Janitor","Service", "Security")
+	var/mod = null
+	if(mmi != null)
+		if(mmi.alien)
+			mod = input("Select what best serves the Hivemind.", "Robot", null, null) in list("Worker","Warrior","Hunter")
+		else
+			mod = input("Please, select a module!", "Robot", null, null) in list("Standard", "Engineering", "Medical", "Miner", "Janitor","Service", "Security")
+	else
+		mod = input("Please, select a module!", "Robot", null, null) in list("Standard", "Engineering", "Medical", "Miner", "Janitor","Service", "Security")
 	if(module)
 		return
 	switch(mod)
@@ -202,6 +209,30 @@
 			modtype = "Jan"
 			feedback_inc("cyborg_janitor",1)
 
+		if("Worker")
+			updatename(mod)
+			module = new /obj/item/weapon/robot_module/alien/worker(src)
+			hands.icon_state = "standard"
+			icon_state = "xenoborg-state-a"
+			modtype = "Xeno-Wo"
+			feedback_inc("xeborg_worker",1)
+
+		if("Warrior")
+			updatename(mod)
+			module = new /obj/item/weapon/robot_module/alien/warrior(src)
+			hands.icon_state = "standard"
+			icon_state = "xenoborg-state-a"
+			modtype = "Xeno-Wa"
+			feedback_inc("xeborg_warrior",1)
+
+		if("Hunter")
+			updatename(mod)
+			module = new /obj/item/weapon/robot_module/alien/hunter(src)
+			hands.icon_state = "standard"
+			icon_state = "xenoborg-state-a"
+			modtype = "Xeno-Hu"
+			feedback_inc("xeborg_hunter",1)
+
 	overlays -= "eyes" //Takes off the eyes that it started with
 	updateicon()
 
@@ -214,9 +245,6 @@
 		changed_name = "[(prefix ? "[prefix] " : "")]Cyborg-[num2text(ident)]"
 	real_name = changed_name
 	name = real_name
-	if(camera)
-		camera.c_tag = real_name	//update the camera name too
-
 
 /mob/living/silicon/robot/verb/cmd_robot_alerts()
 	set category = "Robot Commands"
@@ -250,9 +278,6 @@
 	if (stat != 2)
 		adjustBruteLoss(60)
 		updatehealth()
-		return 1
-	else
-		gib()
 		return 1
 	return 0
 
@@ -364,6 +389,7 @@
 			step(AM, t)
 		now_pushing = null
 
+
 /mob/living/silicon/robot/triggerAlarm(var/class, area/A, var/O, var/alarmsource)
 	if (stat == 2)
 		return 1
@@ -413,12 +439,6 @@
 
 	if (istype(W, /obj/item/weapon/weldingtool))
 		var/obj/item/weapon/weldingtool/WT = W
-		if (src == user)
-			user << "<span class='warning'>You lack the reach to be able to repair yourself.</span>"
-			return
-		if (src.health >= src.maxHealth)
-			user << "<span class='warning'>[src] is already in good condition.</span>"
-			return
 		if (WT.remove_fuel(0))
 			adjustBruteLoss(-30)
 			updatehealth()
@@ -600,7 +620,7 @@
 					O.show_message(text("\blue [M] caresses [src]'s plating with its scythe like arm."), 1)
 
 		if ("grab")
-			if (M == src || anchored)
+			if (M == src)
 				return
 			var/obj/item/weapon/grab/G = new /obj/item/weapon/grab(M, src )
 
@@ -742,14 +762,10 @@
 			cell = null
 			updateicon()
 
-	if(!opened && (!istype(user, /mob/living/silicon)))
-		if (user.a_intent == "help")
-			user.visible_message("<span class='notice'>[user] pets [src]!</span>", \
-								"<span class='notice'>You pet [src]!</span>")
-
-/mob/living/silicon/robot/attack_paw(mob/user)
-
-	return attack_hand(user)
+	if(ishuman(user))
+		if(istype(user:gloves, /obj/item/clothing/gloves/space_ninja)&&user:gloves:candrain&&!user:gloves:draining)
+			call(/obj/item/clothing/gloves/space_ninja/proc/drain)("CYBORG",src,user:wear_suit)
+			return
 
 /mob/living/silicon/robot/proc/allowed(mob/M)
 	//check if it doesn't require any access at all
@@ -814,8 +830,6 @@
 			overlays += "ov-openpanel +c"
 		else
 			overlays += "ov-openpanel -c"
-
-	update_fire()
 	return
 
 
@@ -864,9 +878,6 @@
 
 /mob/living/silicon/robot/Topic(href, href_list)
 	..()
-	if(usr && (src != usr))
-		return
-
 	if (href_list["mach_close"])
 		var/t1 = text("window=[href_list["mach_close"]]")
 		unset_machine()
@@ -884,8 +895,6 @@
 
 	if (href_list["act"])
 		var/obj/item/O = locate(href_list["act"])
-		if(!(locate(O) in src.module.modules) && O != src.module.emag)
-			return
 		if(activated(O))
 			src << "Already activated"
 			return
@@ -928,7 +937,6 @@
 		else
 			src << "Module isn't activated"
 		installed_modules()
-
 	return
 
 /mob/living/silicon/robot/proc/radio_menu()
@@ -1020,11 +1028,3 @@
 		state = 1
 	lockcharge = state
 	update_canmove()
-
-
-
-/mob/living/silicon/robot/verb/outputlaws()
-	set category = "Robot Commands"
-	set name = "State Laws"
-
-	checklaws()

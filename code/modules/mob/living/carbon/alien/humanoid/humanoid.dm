@@ -12,6 +12,9 @@
 	if(name == "alien")
 		name = text("alien ([rand(1, 1000)])")
 	real_name = name
+	internal_organs += new /obj/item/organ/aclaws
+	internal_organs += new /obj/item/organ/avein
+	internal_organs += new /obj/item/organ/achitin
 	..()
 
 //This is fine, works the same as a human
@@ -52,6 +55,15 @@
 	return (tally + move_delay_add + config.alien_delay)
 
 ///mob/living/carbon/alien/humanoid/bullet_act(var/obj/item/projectile/Proj) taken care of in living
+
+proc/HasClaws(mob/living/carbon/alien/humanoid/src)
+        return locate(/obj/item/organ/aclaws) in src.internal_organs
+
+proc/HasTail(mob/living/carbon/alien/humanoid/src)
+        return locate(/obj/item/organ/avein) in src.internal_organs
+
+proc/HasChitin(mob/living/carbon/alien/humanoid/src)
+        return locate(/obj/item/organ/achitin) in src.internal_organs
 
 /mob/living/carbon/alien/humanoid/emp_act(severity)
 	if(r_store) r_store.emp_act(severity)

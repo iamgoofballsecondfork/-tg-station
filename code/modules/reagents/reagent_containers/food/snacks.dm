@@ -2429,3 +2429,48 @@
 		reagents.add_reagent("nutriment", 2)
 		reagents.add_reagent("sugar", 5)
 		bitesize = 2
+
+////////////////////////////////ICE CREAM///////////////////////////////////
+/obj/item/weapon/reagent_containers/food/snacks/icecream
+        name = "ice cream"
+        desc = "delicious ice cream"
+        icon = 'icons/obj/kitchen.dmi'
+        icon_state = "icecream_cone"
+        New()
+                ..()
+                reagents.add_reagent("nutriment", 1)
+                reagents.add_reagent("sugar",1)
+                bitesize = 1
+
+        on_reagent_change()
+                update_icon()
+
+        update_icon()
+                overlays.Cut()
+                var/image/filling = image('icons/obj/kitchen.dmi', src, "icecream_color")
+                filling.icon += mix_color_from_reagents(reagents.reagent_list)
+                overlays += filling
+
+/obj/item/weapon/reagent_containers/food/snacks/icecream/icecreamcone
+        name = "ice cream cone"
+        desc = "delicious ice cream"
+        icon_state = "icecream_cone"
+        volume = 24 // takes into account current reagents, so the player can insert all their reagents. plus one for rounding.
+        New()
+                ..()
+                reagents.add_reagent("nutriment", 2)
+                reagents.add_reagent("sugar",6)
+                reagents.add_reagent("ice",2)
+                bitesize = 3
+
+/obj/item/weapon/reagent_containers/food/snacks/icecream/icecreamcup
+        name = "ice cream cup"
+        desc = "delicious ice cream"
+        icon_state = "icecream_cup"
+        volume = 44 // likewise
+        New()
+                ..()
+                reagents.add_reagent("nutriment", 4)
+                reagents.add_reagent("sugar",8)
+                reagents.add_reagent("ice",2)
+                bitesize = 6

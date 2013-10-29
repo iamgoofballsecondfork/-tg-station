@@ -386,6 +386,15 @@ Turf and target are seperate in case you want to teleport some distance from a t
 		else		. = pick(ais)
 	return .
 
+/proc/select_active_alien_ai()
+        var/mob/living/silicon/ai/selected
+        var/list/active = active_ais()
+        for(var/mob/living/silicon/ai/A in active)
+                if(!selected || ((selected.connected_robots > A.connected_robots) && selected.alienAI))
+                        selected = A
+
+        return selected
+
 //Returns a list of all mobs with their name
 /proc/getmobs()
 

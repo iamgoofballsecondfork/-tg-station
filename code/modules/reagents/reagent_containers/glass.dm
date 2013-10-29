@@ -13,6 +13,7 @@
 	flags = FPRINT | TABLEPASS | OPENCONTAINER
 
 	var/list/can_be_placed_into = list(
+		/obj/machinery/icemachine/,
 		/obj/machinery/chem_master/,
 		/obj/machinery/chem_dispenser/,
 		/obj/machinery/reagentgrinder,
@@ -90,7 +91,7 @@
 		//Safety for dumping stuff into a ninja suit. It handles everything through attackby() and this is unnecessary.	//gee thanks noize
 		else if(istype(target, /obj/item/clothing/suit/space/space_ninja))
 			return
-		
+
 		else if(reagents.total_volume)
 			user << "<span class='notice'>You splash the solution onto [target].</span>"
 			reagents.reaction(target, TOUCH)
