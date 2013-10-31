@@ -5,6 +5,7 @@
 	icon_state = "mmi_empty"
 	w_class = 3
 	origin_tech = "biotech=3"
+	var/spider
 
 	var/list/construction_cost = list("metal"=1000,"glass"=500)
 	var/construction_time = 75
@@ -19,6 +20,23 @@
 	var/mob/living/carbon/brain/brainmob = null//The current occupant.
 	var/mob/living/silicon/robot = null//Appears unused.
 	var/obj/mecha = null//This does not appear to be used outside of reference in mecha.dm.
+
+	proc/doIcon()
+		icon = 'icons/obj/assemblies.dmi'
+		if(spider && brainmob)
+			if(alien)
+				icon_state = "mmi_spider_xeno"
+			else
+				icon_state = "mmi_spider"
+		if(!spider && brainmob)
+			if(alien)
+				icon_state = "mmi_alien"
+			else
+				icon_state = "mmi_full"
+		if(spider && !brainmob)
+			icon_state = "mmi_spider_empty"
+		if(!spider && !brainmob)
+			icon_state = "mmi_empty"
 
 	attackby(var/obj/item/O as obj, var/mob/user as mob)
 		if(istype(O,/obj/item/organ/brain) && !brainmob) //Time to stick a brain in it --NEO
@@ -40,13 +58,12 @@
 
 			if(istype(O,/obj/item/organ/brain/alien))
 				name = "Man-Machine Interface: Alien - [brainmob.real_name]"
-				icon = 'icons/mob/alien.dmi'
-				icon_state = "AlienMMI"
 				alien = 1
+				doIcon()
 			else
 				name = "Man-Machine Interface: [brainmob.real_name]"
-				icon_state = "mmi_full"
 				alien = 0
+				doIcon()
 
 			del(O)
 
@@ -92,8 +109,7 @@
 				brain.brainmob = brainmob//Set the brain to use the brainmob
 				brain.brainmob.cancel_camera()
 				brainmob = null//Set mmi brainmob var to null
-			icon = 'icons/obj/assemblies.dmi'
-			icon_state = "mmi_empty"
+			doIcon()
 			name = "Man-Machine Interface"
 
 	proc
@@ -105,7 +121,7 @@
 			brainmob.container = src
 
 			name = "Man-Machine Interface: [brainmob.real_name]"
-			icon_state = "mmi_full"
+			doIcon()
 			locked = 1
 			return
 
@@ -147,6 +163,28 @@
 
 			radio.listening = radio.listening==1 ? 0 : 1
 			brainmob << "\blue Radio is [radio.listening==1 ? "now" : "no longer"] receiving broadcast."
+
+/obj/item/device/mmi/spider
+	name = "MiniMech Man-Machine Interface"
+	desc = "The Warrior's bland acronym, MMI, obscures the true horror of this monstrosity. This one comes with a walking apparatus."
+	icon_state = "mmi_spider_empty"
+	origin_tech = "biotech=6"
+	spider = 1
+	var/datum/events/events
+
+/obj/item/device/mmi/spider/attack_self(mob/user as mob)
+	if(istype(user.loc,/turf/space))
+		return
+	var/mob/M = new /mob/living/simple_animal/spidermmi(user.loc)
+	M.name = name
+	brainmob.container = M
+	M.ckey = brainmob.ckey
+	del(src)
+
+/obj/mecha/New()
+	..()
+	events = new
+	return
 
 /obj/item/device/mmi/emp_act(severity)
 	if(!brainmob)
