@@ -94,6 +94,8 @@ Class Procs:
 /obj/machinery
 	name = "machinery"
 	icon = 'icons/obj/stationobjs.dmi'
+	var/machinehealth = 100
+	var/hasmalfunction = 0
 	var/stat = 0
 	var/emagged = 0
 	var/use_power = 1
@@ -116,8 +118,28 @@ Class Procs:
 /obj/machinery/Del()
 	..()
 
+
 /obj/machinery/process()//If you dont use process or power why are you here
-	return PROCESS_KILL
+	if(use_power == 0) // some objects are calling ..() for new health function, kill off if no power.
+		return PROCESS_KILL
+	if(prob(1) && hasmalfunction)
+		if(machinehealth > 1)
+			machinehealth = machinehealth - 1
+		if(machinehealth < 51)
+			malfunction()
+
+/obj/machinery/proc/malfunction()
+	if(prob(1))
+		if(machinehealth < 10 && machinehealth > 1)
+			for(var/mob/O in hearers(world.view-1, get_turf(src)))
+				O.show_message("The [name] sputters and vibrates, spewing black smoke",2)
+		if(machinehealth < 25 && machinehealth > 10)
+			for(var/mob/O in hearers(world.view-1, get_turf(src)))
+				O.show_message("The [name] sputters, spewing grey smoke",2)
+		if(machinehealth < 50 && machinehealth > 25)
+			for(var/mob/O in hearers(world.view-1, get_turf(src)))
+				O.show_message("The [name] vibrates, spewing white smoke",2)
+
 
 /obj/machinery/emp_act(severity)
 	if(use_power && stat == 0)
@@ -190,6 +212,13 @@ Class Procs:
 
 	add_fingerprint(usr)
 	return 0
+
+
+/obj/machinery/attackby(obj/item/weapon/W, mob/user)
+	if(hasmalfunction && machinehealth < 100) // no total check, allow some overheal on machines to encourage maintenance
+		if(istype(W, /obj/item/weapon/wrench))
+			machinehealth = machinehealth + rand(1,10)
+			user << "You do some maintenance on the machine"
 
 /obj/machinery/attack_ai(mob/user as mob)
 	if(isrobot(user))

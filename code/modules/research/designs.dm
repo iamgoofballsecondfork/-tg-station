@@ -1298,6 +1298,17 @@ datum/design/mmi
 	build_path = "/obj/item/device/mmi"
 	category = "Misc"
 
+datum/design/mmispider
+	name = "MiniMech Man-Machine Interface"
+	desc = "The Warrior's bland acronym, MMI, obscures the true horror of this monstrosity. This one comes with a walking apparatus."
+	id = "spidermmi"
+	req_tech = list("programming" = 4, "biotech" = 6)
+	build_type = PROTOLATHE | MECHFAB
+	materials = list("$metal" = 1500, "$glass" = 500)
+	reliability_base = 75
+	build_path = "/obj/item/device/mmi"
+	category = "Misc"
+
 datum/design/mmi_radio
 	name = "Radio-enabled Man-Machine Interface"
 	desc = "The Warrior's bland acronym, MMI, obscures the true horror of this monstrosity. This one comes with a built-in radio."

@@ -170,13 +170,25 @@
 	icon_state = "mmi_spider_empty"
 	origin_tech = "biotech=6"
 	spider = 1
-	var/datum/events/events
+
+	proc/obj/item/device/mmi/spider/to_item(var/mob/living/simple_animal/spidermmi/H)
+		brainmob = new(src)
+		brainmob.name = H.real_name
+		brainmob.real_name = H.real_name
+		H.loc = brainmob
+		brainmob.container = src
+		brainmob.ckey = H.ckey
+		name = "Man-Machine Interface: [brainmob.real_name]"
+		doIcon()
+		locked = 1
+		return
 
 /obj/item/device/mmi/spider/attack_self(mob/user as mob)
 	if(istype(user.loc,/turf/space))
 		return
 	var/mob/M = new /mob/living/simple_animal/spidermmi(user.loc)
 	M.name = name
+	M.real_name = brainmob.name
 	brainmob.container = M
 	M.ckey = brainmob.ckey
 	del(src)

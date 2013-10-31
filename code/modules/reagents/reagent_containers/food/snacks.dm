@@ -2441,8 +2441,6 @@
                 reagents.add_reagent("nutriment", 1)
                 reagents.add_reagent("sugar",1)
                 bitesize = 1
-
-        on_reagent_change()
                 update_icon()
 
         update_icon()

@@ -141,6 +141,7 @@
                 C.pixel_y = -16
                 reagents.trans_to(C,30)
                 reagents.clear_reagents()
+                C.update_icon()
 
         else if (href_list["createcone"])
                 var/name = generate_name(reagents.get_master_reagent_name())
@@ -151,6 +152,7 @@
                 C.pixel_x = rand(-8, 8)
                 C.pixel_y = -16
                 reagents.trans_to(C,15)
+                C.update_icon()
 
         src.updateUsrDialog()
         return

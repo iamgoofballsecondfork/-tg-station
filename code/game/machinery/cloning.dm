@@ -306,7 +306,7 @@
 	src.occupant = null
 	return
 
-/obj/machinery/clonepod/proc/malfunction()
+/obj/machinery/clonepod/malfunction()
 	if(src.occupant)
 		src.connected_message("Critical Error!")
 		src.mess = 1
