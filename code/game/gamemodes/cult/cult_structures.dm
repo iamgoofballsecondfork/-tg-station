@@ -44,13 +44,32 @@
 	density = 1
 	unacidable = 1
 	anchored = 1.0
+	var/gateways = list()
+
+/obj/effect/gateway/proc/connect_gateways()
+	gateways = locate(/obj/effect/gateway) in /obj/effect/
+
+/obj/effect/gateway/proc/do_teleport(mob/M as mob|obj)
+	connect_gateways()
+	if(gateways)
+		var/obj/effect/gateway/destination = pick(gateways)
+		if(destination == src)
+			M << "\red The eldritch powers are weak in this location"
+		else
+			M << "\blue You feel strong powers pulling you to another location"
+			M.loc = get_step(destination.loc, SOUTH)
+			M.dir = SOUTH
+
+/obj/effect/gateway/New()
+	..()
+	connect_gateways()
 
 /obj/effect/gateway/Bumped(mob/M as mob|obj)
 	spawn(0)
-		return
+		do_teleport(M)
 	return
 
 /obj/effect/gateway/HasEntered(AM as mob|obj)
 	spawn(0)
-		return
+		do_teleport(AM)
 	return

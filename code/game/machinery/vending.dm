@@ -175,7 +175,7 @@
 			display_records = product_records + hidden_records
 		if(coin)
 			display_records = product_records + coin_records
-		if(coin && extended_inventory)
+		if((coin && extended_inventory) || emagged)
 			display_records = product_records + hidden_records + coin_records
 		dat += "<ul>"
 		for (var/datum/data/vending_product/R in display_records)
@@ -380,9 +380,7 @@
 		return 0
 	if(!prob(prb))
 		return 0
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-	s.set_up(5, 1, src)
-	s.start()
+	spark()
 	if(electrocute_mob(user, get_area(src), src, 0.7))
 		return 1
 	else
@@ -674,6 +672,22 @@
 	products = list(/obj/item/clothing/glasses/meson = 2,/obj/item/device/multitool = 4,/obj/item/weapon/airlock_electronics = 10,/obj/item/weapon/module/power_control = 10,/obj/item/weapon/airalarm_electronics = 10,/obj/item/weapon/cell/high = 10)
 	contraband = list(/obj/item/weapon/cell/potato = 3)
 	premium = list(/obj/item/weapon/storage/belt/utility = 3)
+
+/obj/machinery/vending/antigen
+	name = "\improper AntiGen 4000"
+	desc = "Implausible but not deniable."
+	icon_state = "engi"
+	icon_deny = "engi-deny"
+	req_access_txt = "11"
+	products = list(/obj/item/weapon/am_containment = 12)
+
+/obj/machinery/vending/antigen/process()
+	if(prob(5))
+		for(var/datum/data/vending_product/R in product_records)
+			if(R.amount < 12)
+				spark()
+				R.amount = R.amount + 1
+	..()
 
 //This one's from bay12
 /obj/machinery/vending/engineering

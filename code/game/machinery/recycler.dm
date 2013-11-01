@@ -38,7 +38,7 @@ var/const/SAFETY_COOLDOWN = 100
 			update_icon()
 		playsound(src.loc, "sparks", 75, 1, -1)
 	else
-		..()
+		recycle(I)
 
 /obj/machinery/recycler/update_icon()
 	..()

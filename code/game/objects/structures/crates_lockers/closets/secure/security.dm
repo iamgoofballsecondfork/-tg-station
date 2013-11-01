@@ -24,7 +24,7 @@
 		new /obj/item/clothing/shoes/brown(src)
 		new /obj/item/device/radio/headset/heads/captain(src)
 		new /obj/item/clothing/gloves/captain(src)
-		new /obj/item/weapon/gun/energy/gun(src)
+		new /obj/item/weapon/gun/projectile/pistol/security(src)
 		return
 
 
@@ -50,7 +50,7 @@
 		new /obj/item/clothing/shoes/brown(src)
 		new /obj/item/weapon/storage/box/ids(src)
 		new /obj/item/weapon/storage/box/ids( src )
-		new /obj/item/weapon/gun/energy/gun(src)
+		new /obj/item/weapon/gun/projectile/pistol/security(src)
 		new /obj/item/device/flash(src)
 		new /obj/item/clothing/glasses/sunglasses(src)
 		return
@@ -88,7 +88,7 @@
 		new /obj/item/weapon/storage/box/flashbangs(src)
 		new /obj/item/device/flash(src)
 		new /obj/item/weapon/melee/baton/loaded(src)
-		new /obj/item/weapon/gun/energy/gun(src)
+		new /obj/item/weapon/gun/projectile/pistol/security(src)
 		new /obj/item/weapon/storage/belt/security(src)
 		return
 
@@ -154,7 +154,7 @@
 		new /obj/item/weapon/reagent_containers/spray/pepper(src)
 		new /obj/item/weapon/grenade/flashbang(src)
 		new /obj/item/weapon/melee/baton/loaded(src)
-		new /obj/item/weapon/gun/energy/taser(src)
+		new /obj/item/weapon/gun/projectile/pistol/security(src)
 		new /obj/item/weapon/storage/belt/security(src)
 		new /obj/item/clothing/glasses/sunglasses/sechud(src)
 		return

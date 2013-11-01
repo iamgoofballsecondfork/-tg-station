@@ -174,9 +174,7 @@
 			com.one_time_use = 0
 			com.locked = null
 	else
-		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-		s.set_up(5, 1, src)
-		s.start()
+		spark()
 		for(var/mob/B in hearers(src, null))
 			B.show_message("<span class='notice'>Test fire completed.</span>")
 			accurate = 1

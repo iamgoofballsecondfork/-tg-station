@@ -955,6 +955,10 @@ proc/process_ghost_teleport_locs()
 	name = "\improper Security Office"
 	icon_state = "security"
 
+/area/security/medical
+	name = "\improper Security Medical Bay"
+	icon_state = "medbay"
+
 /area/security/brig
 	name = "\improper Brig"
 	icon_state = "brig"

@@ -45,13 +45,13 @@ proc/cardinalrange(var/center)
 		return
 
 	//Search for shielding first
-	for(var/obj/machinery/am_shielding/AMS in cardinalrange(src))
+	for(var/obj/machinery/am_shielding/AMS in oview(1))
 		if(AMS && AMS.control_unit && link_control(AMS.control_unit))
 			break
 
 	if(!control_unit)//No other guys nearby look for a control unit
 		for(var/direction in cardinal)
-		for(var/obj/machinery/power/am_control_unit/AMC in cardinalrange(src))
+		for(var/obj/machinery/power/am_control_unit/AMC in oview(2))
 			if(AMC.add_shielding(src))
 				break
 
@@ -68,7 +68,8 @@ proc/cardinalrange(var/center)
 /obj/machinery/am_shielding/Del()
 	if(control_unit)	control_unit.remove_shielding(src)
 	if(processing)	shutdown_core()
-	visible_message("\red The [src.name] melts!")
+	if(prob(25))
+		visible_message("\red The [src.name] melts!")
 	//Might want to have it leave a mess on the floor but no sprites for now
 	..()
 	return
