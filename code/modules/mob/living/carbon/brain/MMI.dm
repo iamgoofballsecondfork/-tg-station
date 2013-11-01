@@ -173,9 +173,8 @@
 
 	proc/obj/item/device/mmi/spider/to_item(var/mob/living/simple_animal/spidermmi/H)
 		brainmob = new(src)
-		brainmob.name = H.real_name
+		brainmob.name = H.name
 		brainmob.real_name = H.real_name
-		H.loc = brainmob
 		brainmob.container = src
 		brainmob.ckey = H.ckey
 		name = "Man-Machine Interface: [brainmob.real_name]"
@@ -186,7 +185,9 @@
 /obj/item/device/mmi/spider/attack_self(mob/user as mob)
 	if(istype(user.loc,/turf/space))
 		return
-	var/mob/M = new /mob/living/simple_animal/spidermmi(user.loc)
+	var/mob/living/simple_animal/spidermmi/M = new /mob/living/simple_animal/spidermmi(user.loc)
+	if(alien)
+		M.alien = 1
 	M.name = name
 	M.real_name = brainmob.name
 	brainmob.container = M

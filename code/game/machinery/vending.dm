@@ -107,6 +107,12 @@
 
 
 /obj/machinery/vending/attackby(obj/item/weapon/W, mob/user)
+	for(var/datum/data/vending_product/R in product_records)
+		if(W.name == R.product_name)
+			R.amount = R.amount + 1
+			user << "You insert \an [W] into the machine"
+			del(W)
+			updateUsrDialog()
 	if(istype(W, /obj/item/weapon/card/emag))
 		emagged = 1
 		user << "You short out the product lock on [src]"
@@ -332,12 +338,14 @@
 		var/dump_path = R.product_path
 		if(!dump_path)
 			continue
-
-		while(R.amount>0)
+		var/A = R.amount
+		while(R.amount>rand(0,A))
 			new dump_path(loc)
 			R.amount--
 		break
-
+	if(healthstate() == 3)
+		if(prob(25))
+			throw_item()
 	stat |= BROKEN
 	icon_state = "[initial(icon_state)]-broken"
 	return
@@ -551,6 +559,17 @@
 	products = list(/obj/item/weapon/handcuffs = 8,/obj/item/weapon/grenade/flashbang = 4,/obj/item/device/flash = 5,
 					/obj/item/weapon/reagent_containers/food/snacks/donut/normal = 12,/obj/item/weapon/storage/box/evidence = 6)
 	contraband = list(/obj/item/clothing/glasses/sunglasses = 2,/obj/item/weapon/storage/fancy/donut_box = 2)
+
+/obj/machinery/vending/ammo
+	name = "\improper Ammunator"
+	desc = "A bullet and magazine vendor"
+	product_ads = "Something is better than nothing!;A full load is the best load!;Are you empty?;Grab a handful.. of bullets!;Pack a punch today!"
+	icon_state = "sec"
+	icon_deny = "sec-deny"
+	req_access_txt = "1"
+	products = list(/obj/item/ammo_magazine/mc10mm = 16,/obj/item/ammo_casing/shotgun/beanbag = 32,
+	 /obj/item/ammo_casing/shotgun/stunshell = 32)
+	contraband = list(/obj/item/ammo_magazine/c10mm = 8,/obj/item/ammo_casing/shotgun/dart = 16, /obj/item/ammo_casing/shotgun = 16)
 
 /obj/machinery/vending/hydronutrients
 	name = "\improper NutriMax"

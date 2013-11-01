@@ -95,7 +95,7 @@
 	icon_state = "blshell" //someone, draw the icon, please.
 	projectile_type = "/obj/item/projectile/bullet/dart"
 	m_amt = 12500
-	
+
 	New()
 		..()
 		flags |= NOREACT

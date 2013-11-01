@@ -162,3 +162,4 @@
 	name = "\improper Security pistol"
 	desc = "A small, easily concealable gun issued to Nanotrasen Officers. Uses 10mm rounds."
 	origin_tech = "combat=2;materials=2"
+	force = 4.0

@@ -63,6 +63,12 @@
 	ammo_type = "/obj/item/ammo_casing/shotgun"
 	w_class = 5
 
+/obj/item/weapon/gun/projectile/shotgun/pump/combat/security
+	name = "security shotgun"
+	max_shells = 4
+	icon_state = "cshotgunsec"
+	ammo_type = "/obj/item/ammo_casing/shotgun/beanbag"
+
 //this is largely hacky and bad :(	-Pete
 /obj/item/weapon/gun/projectile/shotgun/doublebarrel
 	name = "double-barreled shotgun"
