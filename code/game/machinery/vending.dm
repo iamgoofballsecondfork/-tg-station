@@ -644,6 +644,17 @@
 	products = list(/obj/item/weapon/tray = 8,/obj/item/weapon/kitchen/utensil/fork = 6,/obj/item/weapon/kitchenknife = 3,/obj/item/weapon/reagent_containers/food/drinks/drinkingglass = 8,/obj/item/clothing/suit/chef/classic = 2)
 	contraband = list(/obj/item/weapon/kitchen/rollingpin = 2, /obj/item/weapon/butch = 2)
 
+/obj/machinery/vending/chemovend
+	name = "\improper Chemnator"
+	desc = "Dispenses useful, sterilised utensils"
+	product_ads = "Mm, food stuffs!;Food and food accessories.;Get your plates!;You like forks?;I like forks.;Woo, utensils.;You don't really need these..."
+	icon_state = "robotics"
+	icon_deny = "robotics-deny"
+	req_access_txt = "8"
+	products = list(/obj/item/weapon/reagent_containers/glass/beaker = 8,/obj/item/weapon/reagent_containers/glass/beaker/large = 4,
+	/obj/item/weapon/reagent_containers/syringe = 8,/obj/item/weapon/grenade/chem_grenade = 4)
+	contraband = list(/obj/item/weapon/reagent_containers/glass/beaker/bluespace = 1)
+
 /obj/machinery/vending/sovietsoda
 	name = "\improper BODA"
 	desc = "Old sweet water vending machine"
@@ -679,6 +690,7 @@
 	icon_state = "engi"
 	icon_deny = "engi-deny"
 	req_access_txt = "11"
+	hasmalfunction = 0
 	products = list(/obj/item/weapon/am_containment = 12)
 
 /obj/machinery/vending/antigen/process()
