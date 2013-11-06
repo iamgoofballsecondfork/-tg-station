@@ -22,7 +22,7 @@
 	var/list/products	= list()	//For each, use the following pattern:
 	var/list/contraband	= list()	//list(/type/path = amount,/type/path2 = amount2)
 	var/list/premium 	= list()	//No specified amount = only one in stock
-
+	var/deny_vend = 0
 	var/product_slogans = ""	//String of slogans separated by semicolons, optional
 	var/product_ads = ""		//String of small ad messages in the vending screen - random chance
 	var/list/product_records = list()
@@ -238,7 +238,7 @@
 
 
 	usr.set_machine(src)
-	if((href_list["vend"]) && (vend_ready))
+	if((href_list["vend"]) && (vend_ready) && !deny_vend)
 
 		if((!allowed(usr)) && !emagged && scan_id)	//For SECURE VENDING MACHINES YEAH
 			usr << "<span class='warning'>Access denied.</span>"	//Unless emagged of course
@@ -290,6 +290,8 @@
 
 /obj/machinery/vending/process()
 	..()
+	if(healthstate() == 0 && deny_vend) //this is a redundancy plan, just to make sure
+		deny_vend = 0
 	if(stat & (BROKEN|NOPOWER))
 		return
 	if(!active)
@@ -332,17 +334,19 @@
 //Oh no we're malfunctioning!  Dump out some product and break.
 /obj/machinery/vending/malfunction()
 	..()
-	for(var/datum/data/vending_product/R in product_records)
-		if(R.amount <= 0) //Try to use a record that actually has something to dump.
-			continue
-		var/dump_path = R.product_path
-		if(!dump_path)
-			continue
-		var/A = R.amount
-		while(R.amount>rand(0,A))
+	if(prob(5))
+		for(var/datum/data/vending_product/R in product_records)
+			if(R.amount <= 0) //Try to use a record that actually has something to dump.
+				continue
+			var/dump_path = R.product_path
+			if(!dump_path)
+				continue
 			new dump_path(loc)
 			R.amount--
-		break
+			break
+	else
+		if(prob(25))
+			deny_vend = !deny_vend
 	if(healthstate() == 3)
 		if(prob(25))
 			throw_item()

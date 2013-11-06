@@ -92,6 +92,7 @@ var/list/obj/machinery/newscaster/allCasters = list() //Global list that will co
 	var/datum/feed_channel/viewing_channel = null
 	luminosity = 0
 	anchored = 1
+	hasmalfunction = 1
 
 
 /obj/machinery/newscaster/security_unit                   //Security unit
@@ -963,6 +964,19 @@ obj/item/weapon/newspaper/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	NEWSPAPER.loc = get_turf(src)
 	src.paper_remaining--
 	return
+
+/obj/machinery/newscaster/malfunction()
+	..()
+	if(news_network.network_channels.len > 0)
+		var/datum/feed_channel/FC = pick(news_network.network_channels)
+		if(FC)
+			src.channel_name = FC.channel_name
+			newsAlert(FC.channel_name)
+			print_paper()
+		else
+			return
+	else
+		return
 
 //Removed for now so these aren't even checked every tick. Left this here in-case Agouri needs it later.
 ///obj/machinery/newscaster/process()       //Was thinking of doing the icon update through process, but multiple iterations per second does not

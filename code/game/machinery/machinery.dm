@@ -124,7 +124,7 @@ Class Procs:
 /obj/machinery/process()//If you dont use process or power why are you here
 	if(use_power == 0) // some objects are calling ..() for new health function, kill off if no power.
 		return PROCESS_KILL
-	if(prob(5) && hasmalfunction)
+	if(prob(2) && hasmalfunction)
 		if(machinehealth > 1)
 			machinehealth = machinehealth - 1
 		if(machinehealth < 51)

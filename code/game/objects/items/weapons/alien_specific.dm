@@ -69,13 +69,12 @@
 	icon = 'icons/mob/alien.dmi'
 	icon_state = "borg-extra-vision"
 
-/obj/item/weapon/weldingtool/alien
+/obj/item/weapon/largetank/cyborg/alien
 	name = "laser welder"
 	icon = 'icons/mob/alien.dmi'
 	icon_state = "borg-default"
-	max_fuel = 50
 
-/obj/item/weapon/weldingtool/alien/process()
+/obj/item/weapon/weldingtool/largetank/cyborg/alien/process()
 	switch(welding)
 		if(0)
 			if(icon_state != "borg-default")
@@ -92,3 +91,27 @@
 				icon_state = "borg-lasers"
 			if(prob(15))
 				remove_fuel(1)
+
+/obj/item/weapon/weldingtool/largetank/cyborg/alien/toggle(mob/user, message = 0)
+	if(!status)
+		return
+	welding = !welding
+	if(welding)
+		if(remove_fuel(1))
+			user << "<span class='notice'>You switch [src] on.</span>"
+			force = 15
+			damtype = "fire"
+			icon_state = "borg-lasers"
+			processing_objects.Add(src)
+		else
+			user << "<span class='notice'>Need more fuel.</span>"
+			welding = 0
+	else
+		if(!message)
+			user << "<span class='notice'>You switch [src] off.</span>"
+		else
+			user << "<span class='notice'>[src] shuts off!</span>"
+		force = 3
+		damtype = "brute"
+		icon_state = "borg-default"
+		welding = 0

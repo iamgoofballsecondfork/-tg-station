@@ -60,7 +60,7 @@
 
 	if(!fueljar)//No fuel but we are on, shutdown
 		toggle_power()
-		//Angry buzz or such here
+		playsound(src.loc, 'sound/machines/buzz-sigh.ogg', 10, 1)
 		return
 
 	add_avail(stored_power)
@@ -79,7 +79,6 @@
 	if(core_power <= 0) return 0//Something is wrong
 	var/core_damage = 0
 	var/fuel = fueljar.usefuel(fuel_injection)
-
 	stored_power = (fuel/core_power)*fuel*200000
 	//Now check if the cores could deal with it safely, this is done after so you can overload for more power if needed, still a bad idea
 	if(fuel > (2*core_power))//More fuel has been put in than the current cores can deal with
@@ -176,11 +175,10 @@
 		if(fueljar)
 			user << "\red There is already a [fueljar] inside!"
 			return
+		user.drop_item()
 		fueljar = W
 		W.loc = src
-		if(user.client)
-			user.client.screen -= W
-		user.u_equip(W)
+		fueljar.control_unit = src
 		user.update_icons()
 		user.visible_message("[user.name] loads an [W.name] into the [src.name].", \
 				"You load an [W.name].", \
@@ -299,43 +297,35 @@
 		dat += "- Injecting: [fuel_injection] units<BR>"
 		dat += "- <A href='?src=\ref[src];strengthdown=1'>--</A>|<A href='?src=\ref[src];strengthup=1'>++</A><BR><BR>"
 
-
-	user << browse(dat, "window=AMcontrol;size=420x500")
-	onclose(user, "AMcontrol")
+	var/datum/browser/popup = new(user, "AMcontrol","AntiMatter Control Panel", 420, 500, src)
+	popup.set_content(dat)
+	popup.open()
 	return
 
 
 /obj/machinery/power/am_control_unit/Topic(href, href_list)
 	if(..())
 		return
-
 	if(href_list["close"])
 		usr << browse(null, "window=AMcontrol")
 		usr.unset_machine()
 		return
-
 	if(href_list["togglestatus"])
 		toggle_power()
-
 	if(href_list["refreshicons"])
 		update_shield_icons = 1
-
 	if(href_list["ejectjar"])
 		if(fueljar)
 			fueljar.loc = src.loc
+			fueljar.control_unit = null
 			fueljar = null
-			//fueljar.control_unit = null currently it does not care where it is
 			//update_icon() when we have the icon for it
-
 	if(href_list["strengthup"])
 		fuel_injection++
-
 	if(href_list["strengthdown"])
 		fuel_injection--
 		if(fuel_injection < 0) fuel_injection = 0
-
 	if(href_list["refreshstability"])
 		check_core_stability()
-
-	updateDialog()
+	src.updateUsrDialog()
 	return

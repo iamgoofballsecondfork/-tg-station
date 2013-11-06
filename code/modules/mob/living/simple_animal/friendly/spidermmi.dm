@@ -26,14 +26,18 @@
 		return 0
 
 /mob/living/simple_animal/spidermmi/proc/inject(mob/target,var/time)
-	src << "\red You inject [target]."
-	for(var/mob/O in oviewers())
-		if ((O.client && !( O.blinded )))
-			O << "\red [src] injects [target]!"
-	beaker.reagents.trans_to(target, beaker.volume)
-	charge = 0
-	spawn(time)
-		charge = 1
+	if(istype(target,/mob/living/carbon))
+		src << "\red You inject [target]."
+		for(var/mob/O in oviewers())
+			if ((O.client && !( O.blinded )))
+				O << "\red [src] injects [target]!"
+		beaker.reagents.trans_to(target, beaker.volume)
+		charge = 0
+		spawn(time)
+			charge = 1
+	else
+		src << "\blue Your scanner indicates chemicals would be ineffective on the [target]"
+		beaker.reagents.clear_reagents()
 
 /mob/living/simple_animal/spidermmi/New()
 	..()

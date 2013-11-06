@@ -123,7 +123,7 @@
 		new /obj/item/weapon/storage/box/flashbangs(src)
 		new /obj/item/weapon/reagent_containers/spray/pepper(src)
 		new /obj/item/weapon/melee/baton/loaded(src)
-		new /obj/item/weapon/gun/energy/taser(src)
+		new /obj/item/weapon/gun/projectile/pistol/security(src)
 		new /obj/item/weapon/storage/belt/security(src)
 		return
 

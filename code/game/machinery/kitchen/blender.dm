@@ -9,6 +9,33 @@ directly into the blender. Other food items will be converted into reagents by t
 the blender or the processor: Processor items are solid objects and Blender results are reagents.
 */
 
+/////////////////////////////////////////////////
+
+/datum/blendable
+	var/obj/item/weapon/reagent_containers/food/inserted
+	var/list/datum/reagent/output
+
+/proc/find_blendable(var/list/datum/blendable/availible, var/obj/obj as obj)
+	var/list/datum/blendable/possible = new
+	for(var/datum/blendable/blend in availible)
+		if(istype(blend.inserted,obj.type))
+			possible += blend
+	if(possible.len == 0)
+		return null
+	else if(possible.len == 1)
+		return possible[1]
+	else
+		var/datum/blendable/chosen = input("What do you want to blend [obj] into?", possible)
+		return chosen
+
+///////////////////BLENDABLES/////////////////////
+
+/datum/blendable/ketchup
+	inserted = /obj/item/weapon/reagent_containers/food/snacks/grown/tomato
+	output = list("ketchup" = 5)
+
+//////////////////////////////////////////////////
+
 /obj/machinery/blender
 	name = "Blender"
 	desc = "A kitchen appliance used to blend stuff."
@@ -19,6 +46,7 @@ the blender or the processor: Processor items are solid objects and Blender resu
 	use_power = 1
 	idle_power_usage = 5
 	active_power_usage = 50
+	var/list/datum/blendable/blendables_list
 	flags = OPENCONTAINER		//So that you can pour stuff into it.
 	var/processing = 0			//This turns on (1) while it is processing so you don't accidentally get multiples from the same item.
 	var/container = 1			//Is there a jug attached? Could have been done with a for loop but it's less code this way.
@@ -29,6 +57,8 @@ the blender or the processor: Processor items are solid objects and Blender resu
 		R.my_atom = src
 		src.contents += new /obj/item/weapon/reagent_containers/glass/blender_jug(src)
 		src.container = "/obj/item/weapon/reagent_containers/glass/blender_jug"		//Loads a jug into the blender.
+		for(var/type in (typesof(/datum/blendable) - /datum/blendable))
+			blendables_list += new type
 
 	on_reagent_change()			//When the reagents change, change the icon as well.
 		update_icon()
@@ -66,7 +96,7 @@ the blender or the processor: Processor items are solid objects and Blender resu
 			user.drop_item()
 			O.loc = src
 			user << "You drop the [O] into the blender."
-		else if (istype(O, /obj/item/weapon/plantbag)) //Allows plant bags to empty into the blender.
+		else if (istype(O, /obj/item/weapon/storage/bag/plants)) //Allows plant bags to empty into the blender.
 			for (var/obj/item/weapon/reagent_containers/food/snacks/grown/G in O.contents)
 				O.contents -= G
 				G.loc = src
@@ -99,17 +129,9 @@ the blender or the processor: Processor items are solid objects and Blender resu
 	usr << "\blue You turn on the blender."
 	use_power(250)
 	for(var/obj/O in src.contents)
-		if(istype(O, /obj/item/weapon/reagent_containers/food/snacks/grown/soybeans))	 //  Mass balance law
-			src.reagents.add_reagent("soymilk", O.reagents.get_reagent_amount("nutriment"))
-			O.reagents.del_reagent("nutriment")
-		else if(istype(O, /obj/item/weapon/reagent_containers/food/snacks/grown/tomato)) //  Mass balance law
-			src.reagents.add_reagent("ketchup", O.reagents.get_reagent_amount("nutriment"))
-			O.reagents.del_reagent("nutriment")
-		else if(istype(O, /obj/item/weapon/reagent_containers/food/snacks/grown/corn))   //  Mass balance law
-			src.reagents.add_reagent("cornoil", O.reagents.get_reagent_amount("nutriment"))
-			O.reagents.del_reagent("nutriment")
-		if(istype(O, /obj/item/weapon/reagent_containers/food/snacks))	//This is intentionally not an "else if"
-			O.reagents.trans_to(src, O.reagents.total_volume)			//Think of it as the "pulp" leftover.
+		var/datum/blendable/blending = find_blendable(blendables_list,O)
+		if(blending)
+			src.reagents.add_reagent(blending.output, blending.output.volume)
 			del(O)
 	src.processing = 0
 	usr << "The contents of the blender have been blended."
@@ -153,4 +175,3 @@ the blender or the processor: Processor items are solid objects and Blender resu
 				O.loc = get_turf(src)
 				O = null
 	return
-

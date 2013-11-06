@@ -20,6 +20,15 @@
 	origin_tech = "combat=5;materials=2;syndicate=8"
 	ammo_type = "/obj/item/ammo_casing/c45"
 
+/obj/item/weapon/gun/projectile/automatic/mp5
+	name = "MP5"
+	desc = "A standard issue CentCom MP5, given to commanding officers. Deadly in the wrong hands. Uses .45 rounds."
+	icon_state = "mp5"
+	w_class = 3.0
+	max_shells = 16
+	caliber = ".45"
+	origin_tech = "combat=5;materials=2"
+	ammo_type = "/obj/item/ammo_casing/c45"
 
 
 /obj/item/weapon/gun/projectile/automatic/c20r

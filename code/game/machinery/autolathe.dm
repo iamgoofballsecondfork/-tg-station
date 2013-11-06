@@ -88,6 +88,7 @@ var/global/list/autolathe_recipes_hidden = list( \
 	use_power = 1
 	idle_power_usage = 10
 	active_power_usage = 100
+	hasmalfunction = 1
 	var/busy = 0
 
 	proc
@@ -361,3 +362,19 @@ var/global/list/autolathe_recipes_hidden = list( \
 		w -= src.shock_wire
 		src.disable_wire = pick(w)
 		w -= src.disable_wire
+
+/obj/machinery/autolathe/malfunction()
+	if(healthstate() == 2)
+		if(prob(35))
+			if(prob(15))
+				shocked = !shocked
+				spawn(50) shocked = !shocked
+			busy = !busy
+			spawn(50) busy = !busy
+	if(healthstate() == 3)
+		if(prob(75))
+			if(prob(35))
+				shocked = !shocked
+				spawn(75) shocked = !shocked
+			busy = !busy
+			spawn(75) busy = !busy

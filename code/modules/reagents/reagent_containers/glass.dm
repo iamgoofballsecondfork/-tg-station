@@ -211,7 +211,7 @@
 			user.drop_from_inventory(src)
 			del(src)
 
-/*
+
 /obj/item/weapon/reagent_containers/glass/blender_jug
 	name = "Blender Jug"
 	desc = "A blender jug, part of a blender."
@@ -228,6 +228,7 @@
 			if(76 to 100)
 				icon_state = "blender_jug_f"
 
+/*
 /obj/item/weapon/reagent_containers/glass/canister		//not used apparantly
 	desc = "It's a canister. Mainly used for transporting fuel."
 	name = "canister"

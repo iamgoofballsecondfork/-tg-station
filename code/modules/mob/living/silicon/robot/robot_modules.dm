@@ -212,7 +212,7 @@
 	name = "alien drone module"
 
 	New()
-		modules += new /obj/item/weapon/weldingtool/alien(src)
+		modules += new /obj/item/weapon/weldingtool/largetank/cyborg/alien(src)
 		modules += new /obj/item/device/flash/alien(src)
 		emag = new /obj/item/weapon/reagent_containers/spray/alien/acid(src)
 		emag.reagents.add_reagent("pacid", 125)
