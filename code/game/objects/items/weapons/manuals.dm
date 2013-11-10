@@ -67,6 +67,48 @@
 				</body>
 				</html>"}
 
+/obj/item/weapon/book/manual/engineering_antimatter
+	name = "Antimatter User's Guide"
+	icon_state ="bookEngineering"
+	author = "Engineering Encyclopedia"		 // Who wrote the thing, can be changed by pen or PC. It is not automatically assigned
+	title = "Antimatter User's Guide"
+//big pile of shit below.
+
+	dat = {"<html>
+				<head>
+				<style>
+				h1 {font-size: 18px; margin: 15px 0px 5px;}
+				h2 {font-size: 15px; margin: 15px 0px 5px;}
+				li {margin: 2px 0px 2px 15px;}
+				ul {list-style: none; margin: 5px; padding: 0px;}
+				ol {margin: 5px; padding: 0px 15px;}
+				</style>
+				</head>
+				<body>
+
+				<h3>Experienced user's guide</h3>
+
+				<h4>Setting up</h4>
+
+				<ol>
+					<li><b>Place</b> all reactor sections into the mould</li>
+					<li>Use a <b>Multitool</b> to activate the sections</li>
+					<li>Acquire a <b>Containment Canister</b> from the <b>AntiGen 4000</b> in Storage</li>
+					<li>Insert the <b>Containment Canister</b> into the <b>Antimatter Control Unit</b></li>
+				</ol>
+
+				<h4>Use</h4>
+
+				<ol>
+					<li>Open the <b>Antimatter Control Unit</b></li>
+					<li>Toggle the Engine to 'On'</li>
+					<li>Slowly increase the Injection amount to a satisfactory level</li>
+					<li><font color='red'><b>Injecting too much Antimatter may cause instability, this is indicated by an alarm going off</b></font></li>
+				</ol>
+
+				</body>
+				</html>"}
+
 /obj/item/weapon/book/manual/infections
 	name = "Infections - Making your own pandemic!"
 	icon_state = "bookInfections"

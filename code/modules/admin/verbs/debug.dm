@@ -881,7 +881,7 @@ var/global/list/g_fancy_list_of_safe_types = null
 			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/black(M), slot_gloves)
 			M.equip_to_slot_or_del(new /obj/item/device/radio/headset/headset_com(M), slot_ears)
 			M.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(M), slot_glasses)
-			M.equip_to_slot_or_del(new /obj/item/weapon/gun/energy/gun(M), slot_belt)
+			M.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/automatic/mp5(M), slot_belt)
 			M.equip_to_slot_or_del(new /obj/item/weapon/pen(M), slot_l_store)
 
 			var/obj/item/device/pda/heads/pda = new(M)

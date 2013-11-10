@@ -1,4 +1,3 @@
-/*
 /obj/effect/biomass
 	icon = 'icons/obj/biomass.dmi'
 	icon_state = "stage1"
@@ -123,4 +122,3 @@
 	if(location.density)
 		return 0
 	return 1
-*/

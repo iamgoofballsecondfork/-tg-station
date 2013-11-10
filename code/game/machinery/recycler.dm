@@ -38,7 +38,13 @@ var/const/SAFETY_COOLDOWN = 100
 			update_icon()
 		playsound(src.loc, "sparks", 75, 1, -1)
 	else
-		recycle(I)
+		if(istype(I, /obj/item/weapon/storage/bag/trash))
+			var/obj/item/weapon/storage/bag/trash/T = I
+			user << "\blue You empty the bag."
+			for(var/obj/item/O in T.contents)
+				recycle(O)
+			T.update_icon()
+		user.update_icons()
 
 /obj/machinery/recycler/update_icon()
 	..()

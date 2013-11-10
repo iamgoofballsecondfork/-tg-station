@@ -39,6 +39,17 @@
 		user << "You add the container to the Cream-Master!"
 		src.updateUsrDialog()
 		return
+	if(istype(B, /obj/item/weapon/reagent_containers/food/snacks/icecream))
+		if(!B.reagents.has_reagent("sprinkles"))
+			if(B.reagents.total_volume > 29) B.reagents.remove_any(1)
+			B.reagents.add_reagent("sprinkles",1)
+			var/image/sprinkles = image('icons/obj/kitchen.dmi', src, "sprinkles")
+			B.overlays += sprinkles
+			B.name += " with sprinkles"
+			B.desc += ". This also has sprinkles."
+		else
+			user << "This [B] already has sprinkles"
+			return
 
 /obj/machinery/icemachine/proc/validexchange(var/reag)
 	if(reag == "sprinkles" | reag == "cola" | reag == "kahlua" | reag == "dr_gibb" | reag == "vodka" | reag == "space_up" | reag == "rum" | reag == "spacemountainwind" | reag == "gin" | reag == "cream" | reag == "water")
@@ -99,9 +110,11 @@
 	else if (href_list["synthcond"])
 		if(href_list["type"])
 			var/ID = text2num(href_list["type"])
+			/*
 			if(ID == 1)
 				reagents.add_reagent("sprinkles",1)
-			else if(ID == 2 | ID == 3)
+				*/ //Sprinkles are now created by using the ice cream on the machine
+			if(ID == 2 | ID == 3)
 				var/brand = pick(1,2,3,4)
 				if(brand == 1)
 					if(ID == 2)
@@ -172,8 +185,6 @@
 	var/dat = ""
 	if(reagents.total_volume <= 30)
 		dat += "<HR>"
-		if(reagents.get_reagent_amount("sprinkles") == 0)
-			dat += "<center><BR><A href='?src=\ref[src];synthcond=1;type=1'>Sprinkles</A><BR>"
 		if((reagents.total_volume + 5) != 30)
 			dat += "<strong>Add fillings:</strong><BR>"
 			dat += "<A href='?src=\ref[src];synthcond=1;type=2'>Soda</A><BR>"
@@ -235,8 +246,8 @@
 			dat += "Container is empty.<BR><HR>"
 		else
 			dat += show_reagents(1)
-			dat += show_reagents(2)
-			dat += show_toppings()
+		dat += show_reagents(2)
+		dat += show_toppings()
 	var/datum/browser/popup = new(user, "cream_master","Cream-Master Deluxe", 700, 400, src)
 	popup.set_content(dat)
 	popup.open()

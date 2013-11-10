@@ -25,6 +25,7 @@
 		new /obj/item/device/radio/headset/heads/captain(src)
 		new /obj/item/clothing/gloves/captain(src)
 		new /obj/item/weapon/gun/projectile/pistol/security(src)
+		new /obj/item/weapon/gun/projectile/automatic/mp5(src)
 		return
 
 
@@ -89,6 +90,7 @@
 		new /obj/item/device/flash(src)
 		new /obj/item/weapon/melee/baton/loaded(src)
 		new /obj/item/weapon/gun/projectile/pistol/security(src)
+		new /obj/item/weapon/gun/projectile/automatic/mp5(src)
 		new /obj/item/weapon/storage/belt/security(src)
 		return
 

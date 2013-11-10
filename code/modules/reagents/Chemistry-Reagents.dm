@@ -1794,6 +1794,15 @@ datum
 			color = "#731008" // rgb: 115, 16, 8
 
 
+		applesauce
+			name = "Apple Sauce"
+			id = "applesauce"
+			description = "Great with the other white meat."
+			reagent_state = LIQUID
+			nutriment_factor = 3 * REAGENTS_METABOLISM
+			color = "#CCCC33" // rgb: 115, 16, 8
+
+
 		capsaicin
 			name = "Capsaicin Oil"
 			id = "capsaicin"

@@ -179,12 +179,12 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 	containername = "stun baton crate"
 
 /datum/supply_packs/security/laser
-	name = "Lasers crate"
-	contains = list(/obj/item/weapon/gun/energy/laser,
-					/obj/item/weapon/gun/energy/laser,
-					/obj/item/weapon/gun/energy/laser)
+	name = "Pistol crate"
+	contains = list(/obj/item/weapon/gun/projectile/pistol/security,
+					/obj/item/weapon/gun/projectile/pistol/security,
+					/obj/item/weapon/gun/projectile/pistol/security)
 	cost = 15
-	containername = "laser crate"
+	containername = "pistol crate"
 
 /datum/supply_packs/security/taser
 	name = "Stun Guns crate"
@@ -254,12 +254,12 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 	containername = "combat shotgun crate"
 
 /datum/supply_packs/security/armory/expenergy
-	name = "Energy Guns crate"
-	contains = list(/obj/item/weapon/gun/energy/gun,
-					/obj/item/weapon/gun/energy/gun)			// Only two guns to keep costs down
+	name = "Shotgun crate"
+	contains = list(/obj/item/weapon/gun/projectile/shotgun/pump/combat/security,
+					/obj/item/weapon/gun/projectile/shotgun/pump/combat/security)			// Only two guns to keep costs down
 	cost = 25
 	containertype = /obj/structure/closet/crate/secure/plasma
-	containername = "energy gun crate"
+	containername = "shotgun crate"
 
 /datum/supply_packs/security/armory/eweapons
 	name = "Incendiary weapons crate"
@@ -399,48 +399,6 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 					/obj/item/weapon/paper/solar)
 	cost = 20
 	containername = "solar pack crate"
-
-/datum/supply_packs/engineering/engine
-	name = "Emitter crate"
-	contains = list(/obj/machinery/power/emitter,
-					/obj/machinery/power/emitter)
-	cost = 10
-	containertype = /obj/structure/closet/crate/secure
-	containername = "emitter crate"
-	access = access_ce
-
-/datum/supply_packs/engineering/engine/field_gen
-	name = "Field Generator crate"
-	contains = list(/obj/machinery/field/generator,
-					/obj/machinery/field/generator)
-	cost = 10
-	containername = "field generator crate"
-
-/datum/supply_packs/engineering/engine/sing_gen
-	name = "Singularity Generator crate"
-	contains = list(/obj/machinery/the_singularitygen)
-	cost = 10
-	containername = "singularity generator crate"
-
-/datum/supply_packs/engineering/engine/collector
-	name = "Collector crate"
-	contains = list(/obj/machinery/power/rad_collector,
-					/obj/machinery/power/rad_collector,
-					/obj/machinery/power/rad_collector)
-	cost = 10
-	containername = "collector crate"
-
-/datum/supply_packs/engineering/engine/PA
-	name = "Particle Accelerator crate"
-	contains = list(/obj/structure/particle_accelerator/fuel_chamber,
-					/obj/machinery/particle_accelerator/control_box,
-					/obj/structure/particle_accelerator/particle_emitter/center,
-					/obj/structure/particle_accelerator/particle_emitter/left,
-					/obj/structure/particle_accelerator/particle_emitter/right,
-					/obj/structure/particle_accelerator/power_box,
-					/obj/structure/particle_accelerator/end_cap)
-	cost = 25
-	containername = "particle accelerator crate"
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -582,6 +540,17 @@ var/list/all_supply_groups = list(supply_emergency,supply_security,supply_engine
 	cost = 10
 	containertype = /obj/structure/closet/crate/secure/plasma
 	containername = "plasma assembly crate"
+	access = access_tox_storage
+	group = supply_science
+
+/datum/supply_packs/science/eggs
+	name = "Thing Egg crate"
+	contains = list(/obj/item/device/egg_deployer,
+					/obj/item/device/egg_deployer,
+					/obj/item/device/egg_deployer)
+	cost = 10
+	containertype = /obj/structure/closet/crate/secure
+	containername = "thing egg crate"
 	access = access_tox_storage
 	group = supply_science
 

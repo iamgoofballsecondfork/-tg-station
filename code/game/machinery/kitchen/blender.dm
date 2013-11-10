@@ -13,26 +13,48 @@ the blender or the processor: Processor items are solid objects and Blender resu
 
 /datum/blendable
 	var/obj/item/weapon/reagent_containers/food/inserted
-	var/list/datum/reagent/output
+	var/list/datum/reagent/input_reagent = list()
+	var/list/datum/reagent/output = list()
 
 /proc/find_blendable(var/list/datum/blendable/availible, var/obj/obj as obj)
 	var/list/datum/blendable/possible = new
 	for(var/datum/blendable/blend in availible)
-		if(istype(blend.inserted,obj.type))
+		if(istype(obj,blend.inserted))
 			possible += blend
 	if(possible.len == 0)
 		return null
-	else if(possible.len == 1)
-		return possible[1]
 	else
-		var/datum/blendable/chosen = input("What do you want to blend [obj] into?", possible)
-		return chosen
+		return possible[1]
+
+/proc/find_whizzable(var/list/datum/blendable/availible, var/obj/src)
+	var/list/datum/blendable/possible = new
+	for(var/datum/blendable/blend in availible)
+		var/checks = 0
+		for(var/datum/reagent/R in blend.input_reagent)
+			if(src.reagents.has_reagent(R))
+				checks = checks + 1
+			else
+				break
+		if(blend.input_reagent.len == checks)
+			possible += blend
+	if(possible.len == 0)
+		return null
+	else
+		for(var/datum/blendable/blend in possible)
+			for(var/datum/reagent/R in blend.input_reagent)
+				src.reagents.remove_reagent(R,R.volume)
+			break
+		return possible[1]
 
 ///////////////////BLENDABLES/////////////////////
 
 /datum/blendable/ketchup
 	inserted = /obj/item/weapon/reagent_containers/food/snacks/grown/tomato
 	output = list("ketchup" = 5)
+
+/datum/blendable/applesauce
+	inserted = /obj/item/weapon/reagent_containers/food/snacks/grown/apple
+	output = list("applesauce" = 5)
 
 //////////////////////////////////////////////////
 
@@ -46,7 +68,7 @@ the blender or the processor: Processor items are solid objects and Blender resu
 	use_power = 1
 	idle_power_usage = 5
 	active_power_usage = 50
-	var/list/datum/blendable/blendables_list
+	var/global/list/datum/recipe/blendables_list = list()
 	flags = OPENCONTAINER		//So that you can pour stuff into it.
 	var/processing = 0			//This turns on (1) while it is processing so you don't accidentally get multiples from the same item.
 	var/container = 1			//Is there a jug attached? Could have been done with a for loop but it's less code this way.
@@ -129,12 +151,19 @@ the blender or the processor: Processor items are solid objects and Blender resu
 	usr << "\blue You turn on the blender."
 	use_power(250)
 	for(var/obj/O in src.contents)
-		var/datum/blendable/blending = find_blendable(blendables_list,O)
-		if(blending)
-			src.reagents.add_reagent(blending.output, blending.output.volume)
-			del(O)
+		if(!istype(O, /obj/item/weapon/reagent_containers/glass/blender_jug))
+			var/datum/blendable/blending = find_blendable(blendables_list,O)
+			if(blending)
+				for(var/datum/reagent/R in blending.output)
+					src.reagents.add_reagent(R, R.volume)
+				del(O)
+				usr << "The contents of the blender have been blended."
+			var/datum/blendable/whizzing = find_whizzable(blendables_list,src)
+			if(whizzing)
+				for(var/datum/reagent/R in whizzing.output)
+					src.reagents.add_reagent(R, R.volume)
+				usr << "The contents of the blender have been mixed."
 	src.processing = 0
-	usr << "The contents of the blender have been blended."
 	return
 
 /obj/machinery/blender/verb/detach()		//Transfers the contents of the Blender to the Blender Jug and then ejects the jug.
