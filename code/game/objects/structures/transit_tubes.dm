@@ -45,7 +45,19 @@
 	var/moving = 0
 	var/datum/gas_mixture/air_contents = new()
 
-
+/obj/structure/transit_tube_pod/verb/Eject()
+	set category = "Object"
+	set name = "Eject Transport Tube"
+	set src in oview(1)
+	if(moving)
+		usr << "You cannot eject from a moving pod!"
+		return
+	else
+		for(var/obj/O in contents)
+			O.loc = get_turf(src)
+		for(var/mob/M in contents)
+			M.loc = get_turf(src)
+			M << "You are ejected from the tube!"
 
 /obj/structure/transit_tube_pod/Del()
 	for(var/atom/movable/AM in contents)

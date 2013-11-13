@@ -227,8 +227,6 @@
 		babyname += " [tempname]"
 		M.maxbodytemp = temp
 		M.minbodytemp = temp/2
-	babyname += " [M.name]"
-	M.name = trim_left(babyname)
 	//---------------------------------------
 	if(babybit & COLD_THING)
 		tempname = pick("frosty","chilled","frozen","icy")
@@ -296,6 +294,7 @@
 	max_n2 = 0
 	minbodytemp = 250
 	maxbodytemp = 350
+	var/hit = 0
 	var/list/stored_sweets = list()
 
 /mob/living/simple_animal/science/thing/proc/TryRear()
@@ -350,7 +349,16 @@
 
 /mob/living/simple_animal/science/thing/attackby(var/obj/item/O as obj, var/mob/user as mob)
 	if(istype(O, /obj/item/weapon/melee/baton) || istype(O, /obj/item/weapon/melee/baton/cattleprod))
-		TryRear()
+		var/obj/item/weapon/melee/baton/B = O
+		if(B.status && !hit)
+			playsound(loc, 'sound/weapons/Egloves.ogg', 50, 1, -1)
+			visible_message("<span class='notice'>[user] taps the [src] with the [O]</span>")
+			TryRear()
+			hit = 1
+			spawn(30)
+				hit = 0
+		else
+			user << "The [O] is off!"
 
 
 /////////////////////////////////////////////////EGG BOX

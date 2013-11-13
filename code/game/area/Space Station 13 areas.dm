@@ -1377,6 +1377,16 @@ proc/process_ghost_teleport_locs()
 	name = "Unknown"
 	icon_state = "storage"
 
+//Tube areas
+
+/area/stopoffs/tubea
+	name = "\improper South Tube Station"
+	icon_state = "hallA"
+
+/area/stopoffs/tubeb
+	name = "\improper Satellite Tube Station"
+	icon_state = "hallA"
+
 
 
 // Telecommunications Satellite
