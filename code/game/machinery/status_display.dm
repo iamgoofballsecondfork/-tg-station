@@ -263,6 +263,8 @@
 					set_picture("ai_facepalm")
 				if("Friend Computer")
 					set_picture("ai_friend")
+				if("Dave")
+					set_picture("ai_hal")
 
 			return
 

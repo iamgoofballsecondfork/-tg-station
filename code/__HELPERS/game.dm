@@ -115,7 +115,16 @@
 			turfs += T
 	return turfs
 
-
+/proc/reverse_direction(var/direction)
+	if(direction == NORTH)
+		return SOUTH
+	if(direction == SOUTH)
+		return NORTH
+	if(direction == EAST)
+		return WEST
+	if(direction == WEST)
+		return EAST
+	return 0
 
 //var/debug_mob = 0
 

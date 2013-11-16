@@ -28,22 +28,11 @@
 	set category = "Kitchen"
 	set name = "Toggle Grills"
 	set src in oview(1)
-	//this is very inefficient, but its early and im lazy; i'll fix it later
-	var/list/burners = list()
 	var/image/burnera = image('icons/obj/kitchen.dmi', src, "goven_burna")
-	burners += burnera
-	//---------------------------------------
 	var/image/burnerb = image('icons/obj/kitchen.dmi', src, "goven_burnb")
-	burners += burnerb
-	//---------------------------------------
 	var/image/burnerc = image('icons/obj/kitchen.dmi', src, "goven_burnc")
-	burners += burnerc
-	//---------------------------------------
 	var/image/burnerd = image('icons/obj/kitchen.dmi', src, "goven_burnd")
-	burners += burnerd
-	//---------------------------------------
-	for(var/image/b in burners)
-		overlays -= b
+	overlays.Cut()
 	if(!on)
 		on = 1
 		switch(power)

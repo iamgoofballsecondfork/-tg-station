@@ -178,7 +178,6 @@
 		user.drop_item()
 		fueljar = W
 		W.loc = src
-		fueljar.control_unit = src
 		user.update_icons()
 		user.visible_message("[user.name] loads an [W.name] into the [src.name].", \
 				"You load an [W.name].", \
@@ -317,7 +316,6 @@
 	if(href_list["ejectjar"])
 		if(fueljar)
 			fueljar.loc = src.loc
-			fueljar.control_unit = null
 			fueljar = null
 			//update_icon() when we have the icon for it
 	if(href_list["strengthup"])
