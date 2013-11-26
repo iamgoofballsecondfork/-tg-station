@@ -71,7 +71,7 @@
 	if(src.tray && src.path.len == 0 && (get_dist(src,src.tray) > 1))
 		//stuck here
 		spawn(0)
-			src.path = AStar(src.loc, src.tray, /turf/proc/CardinalTurfsWithAccess, /turf/proc/Distance_cardinal, 0, 120,id=botcard)
+			src.path = AStar(src.loc, src.tray.loc, /turf/proc/AdjacentTurfs, /turf/proc/Distance, 0, 30)
 			if(!src.path)
 				src.path = list()
 			if(src.path.len == 0)

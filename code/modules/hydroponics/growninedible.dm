@@ -53,6 +53,19 @@
 				usr << "You add the newly-formed wood to the stack. It now contains [NG.amount] planks."
 		del(src)
 		return
+	if(istype(W,/obj/item/weapon/kitchenknife))
+		var/choice = input("What would you like to shave off the [src]?") in list("Paper","Cigarette Paper")
+		switch(choice)
+			if("Paper")
+				user.show_message("<span class='notice'>You make some paper out of the [src]!</span>")
+				for(var/i=0,i<3,i++)
+					new/obj/item/weapon/paper(src)
+				del(src)
+			if("Cigarette Paper")
+				user.show_message("<span class='notice'>You make some cigarette paper out of the [src]!</span>")
+				for(var/i=0,i<3,i++)
+					new/obj/item/cigs/paper(src)
+				del(src)
 
 /obj/item/weapon/grown/sunflower // FLOWER POWER!
 	name = "sunflower"

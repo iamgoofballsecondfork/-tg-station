@@ -15,8 +15,8 @@
 
 
 /obj/structure/closet/boxinggloves
-	name = "boxing gloves"
-	desc = "It's a storage unit for gloves for use in the boxing ring."
+	name = "fighting gear"
+	desc = "It's a storage unit for play fights."
 
 /obj/structure/closet/boxinggloves/New()
 	..()
@@ -25,6 +25,10 @@
 	new /obj/item/clothing/gloves/boxing/green(src)
 	new /obj/item/clothing/gloves/boxing/yellow(src)
 	new /obj/item/clothing/gloves/boxing(src)
+	new /obj/item/weapon/melee/larpsword(src)
+	new /obj/item/weapon/melee/larpsword(src)
+	new /obj/item/weapon/melee/larpsword(src)
+	new /obj/item/weapon/melee/larpsword(src)
 
 
 /obj/structure/closet/masks

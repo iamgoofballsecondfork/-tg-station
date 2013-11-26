@@ -65,12 +65,12 @@
 		Spread()
 
 /obj/effect/biomass/process()
-	if(prob(25))
+	if(prob(1))
 		if(stage < 3)
 			stage = stage + 1
 			icon_state = "stage[stage]"
 		if(stage == 3)
-			if(prob(25))
+			if(prob(5))
 				visible_message("\red <B>Spores on the biomass pop, releasing deadly gas!</B>")
 				var/datum/reagents/R = new/datum/reagents(50)
 				R.my_atom = src.loc
@@ -78,6 +78,7 @@
 				R.add_reagent("toxin", 25)
 				var/datum/effect/effect/system/chem_smoke_spread/smoke = new
 				smoke.set_up(R, rand(1, 2), 0, src.loc, 0, silent = 1)
+				playsound(loc, 'sound/effects/bamf.ogg', 50, 1)
 				playsound(src.loc, 'sound/effects/smoke.ogg', 50, 1, -3)
 				smoke.start()
 				R.delete()
@@ -94,6 +95,17 @@
 		if(newDirection == turn(direction,180)) //can't go backwards
 			continue
 		var/turf/T = get_step(loc,newDirection)
+		if(T.density)
+			for(var/obj/O in T.contents)
+				if(prob(1) && O.density)
+					if(!istype(O,/obj/machinery/power/hadron))
+						visible_message("<span class='alert'>The Biomass consumes the [O]</span>")
+						playsound(src.loc, 'sound/items/Welder.ogg', 100, 1)
+						del(O)
+			if(prob(1) && T.density && !istype(T,/turf/simulated/wall/r_wall))
+				visible_message("<span class='alert'>The Biomass consumes the [T]</span>")
+				playsound(src.loc, 'sound/items/Welder.ogg', 100, 1)
+				del(T)
 		if(!IsValidBiomassLoc(T,src))
 			continue
 		possibleDirsInt |= newDirection
@@ -117,10 +129,13 @@
 	newBiomass.curDistance = curDistance + 1
 	newBiomass.maxDistance = maxDistance
 	newBiomass.dir = direction
-	newBiomass.originalRift = originalRift
-	newBiomass.stage = stage
-	newBiomass.icon_state = "stage[originalRift.stage]"
-	originalRift.linkedBiomass += newBiomass
+	if(!originalRift)
+		return
+	else
+		newBiomass.originalRift = originalRift
+		newBiomass.stage = stage
+		newBiomass.icon_state = "stage[originalRift.stage]"
+		originalRift.linkedBiomass += newBiomass
 
 /obj/effect/biomass/proc/NewSpread(maxDistance = 15)
 	set background = 1

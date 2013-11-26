@@ -99,6 +99,8 @@
 	var/SWEET_TOXIC = 0
 	var/SWEET_BLACKHOLE = 0
 	var/SWEET_WELLSHIT = 0
+	var/MAX_MALFUNCTIONS = 5
+	var/MALFUNCTIONS = 0
 
 /obj/machinery/power/hadron/console/New()
 	..()
@@ -117,25 +119,34 @@
 	if(fuel == input)
 		playsound(src.loc, 'sound/effects/phasein.ogg', 25, 1)
 		stored = (fuel/input)*fuel*200000
+		if(MALFUNCTIONS > 0)
+			MALFUNCTIONS = MALFUNCTIONS - 1
 	else
 		playsound(src.loc, 'sound/effects/EMPulse.ogg', 25, 1)
-		if(prob(SWEET_TOXIC))
-			for(var/mob/living/M in range(25))
-				var/radiation = (input)
-				M.apply_effect((radiation*3),IRRADIATE,0)
-				M.updatehealth()
-		if(prob(SWEET_BLACKHOLE))
-			command_alert("We appear to be experiencing a localised bend in space and time around the engine, please stand by.")
-			spawn(60)
-				var/datum/round_event_control/wormholes/W = new()
-				W.runEvent()
-		if(prob(SWEET_WELLSHIT))
-			command_alert("ALERT: Hadron-initiated bioanomaly detected; Please evacuate all departments and proceed to safe zones.")
-			for(var/turf/simulated/floor/T in world)
-				if(T.z == 1)
-					if(prob(1))
-						var/obj/effect/rift/R = new(T.loc)
-						R.name = "bioanomaly [rand(1,1000)]"
+		if(MALFUNCTIONS < MAX_MALFUNCTIONS)
+			if(prob(SWEET_TOXIC))
+				for(var/mob/living/M in range(25))
+					var/radiation = (input)
+					M.apply_effect((radiation*3),IRRADIATE,0)
+					M.updatehealth()
+				MALFUNCTIONS = MALFUNCTIONS + 1
+			if(prob(SWEET_BLACKHOLE))
+				command_alert("We appear to be experiencing a localised bend in space and time around the engine, please stand by.","CentComm Engineering Scanners")
+				spawn(60)
+					var/datum/round_event_control/wormholes/W = new()
+					W.runEvent()
+				MALFUNCTIONS = MALFUNCTIONS + 1
+			if(prob(SWEET_WELLSHIT))
+				command_alert("ALERT: Hadron-initiated bioanomaly detected; Please evacuate all departments and proceed to safe zones.","CentComm Engineering Scanners")
+				var/MAX_RIFTS = 10
+				var/RIFTS = 0
+				for(var/turf/simulated/floor/T in world)
+					if(T.z == 1)
+						if(prob(1) && RIFTS < MAX_RIFTS)
+							var/obj/effect/rift/R = new(T.loc)
+							R.name = "bioanomaly [rand(1,1000)]"
+							RIFTS = RIFTS + 1
+				MALFUNCTIONS = MALFUNCTIONS + 1
 	return
 
 /obj/machinery/power/hadron/console/attackby(obj/item/W, mob/user)
@@ -220,7 +231,8 @@
 			fueljar.loc = src.loc
 			fueljar = null
 	if(href_list["strengthup"])
-		fuel_usage++
+		if(fuel_usage < 10)
+			fuel_usage++
 	if(href_list["strengthdown"])
 		fuel_usage--
 		if(fuel_usage < 0) fuel_usage = 0

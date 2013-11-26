@@ -80,13 +80,25 @@
 
 
 /obj/item/weapon/paper/attack_self(mob/user)
-	examine()
 	if(rigged && (events.holiday == "April Fool's Day"))
 		if(spam_flag == 0)
 			spam_flag = 1
 			playsound(loc, 'sound/items/bikehorn.ogg', 50, 1)
 			spawn(20)
 				spam_flag = 0
+	var/choice = input("What would you like to do with the paper?") in list("Read","Craft")
+	switch(choice)
+		if("Read")
+			examine()
+		if("Craft")
+			var/choice2 = input("What would you like to craft?") in list("Hat","Ninja Stars")
+			switch(choice2)
+				if("Hat")
+					new/obj/item/clothing/head/collectable/paper(src.loc)
+					del(src)
+				if("Ninja Star")
+					new/obj/item/weapon/paperstar(src.loc)
+					del(src)
 
 
 /obj/item/weapon/paper/attack_ai(mob/living/silicon/ai/user)

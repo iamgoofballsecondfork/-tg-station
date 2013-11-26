@@ -2,6 +2,7 @@
 #define RUSKY_PARTY 2
 #define SPIDER_GIFT 3
 #define DEPARTMENT_RESUPPLY 4
+#define CRABS 5
 
 /datum/round_event_control/shuttle_loan
 	name = "Shuttle loan"
@@ -32,6 +33,8 @@
 			command_alert("Seems we've ordered doubles of our department resupply packages this month. Can we send them to you?","CentComm Supply Department")
 			thanks_msg = "The shuttle will be returned in 5 minutes."
 			bonus_points = 0
+		if(CRABS)
+			command_alert("We appear to have a bad case of Crabs, Let us send some down your way so we're not the only ones.","CentComm Beauty Department")
 
 /datum/round_event/shuttle_loan/proc/loan_shuttle()
 	command_alert(thanks_msg, "Cargo shuttle commandeered by CentComm.")
@@ -50,6 +53,8 @@
 		if(SPIDER_GIFT)
 			supply_shuttle.centcom_message += "<font color=blue>Spider Clan gift incoming.</font>"
 		if(DEPARTMENT_RESUPPLY)
+			supply_shuttle.centcom_message += "<font color=blue>Department resupply incoming.</font>"
+		if(CRABS)
 			supply_shuttle.centcom_message += "<font color=blue>Department resupply incoming.</font>"
 
 /datum/round_event/shuttle_loan/tick()
@@ -156,6 +161,17 @@
 				T = pick(empty_shuttle_turfs)
 				new /obj/effect/spider/stickyweb(T)
 
+			if(CRABS)
+				var/datum/supply_order/O = new /datum/supply_order()
+				O.ordernum = supply_shuttle.ordernum
+				O.object = new /datum/supply_packs/emergency/specialops()
+				O.orderedby = "CentComm"
+				supply_shuttle.shoppinglist += O
+
+				shuttle_spawns.Add(/mob/living/simple_animal/crab)
+				shuttle_spawns.Add(/mob/living/simple_animal/crab)
+				shuttle_spawns.Add(/mob/living/simple_animal/crab)
+
 			if(DEPARTMENT_RESUPPLY)
 				var/list/crate_types = list()
 
@@ -204,3 +220,4 @@
 #undef RUSKY_PARTY
 #undef SPIDER_GIFT
 #undef DEPARTMENT_RESUPPLY
+#undef CRABS

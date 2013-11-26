@@ -306,6 +306,14 @@
 		return
 
 	if(isrobot(user))
+		if (istype(W, /obj/item/weapon/tray))
+			var/obj/item/weapon/tray/T = W
+			if(T.carrying.len > 0)
+				T.borg_drop(src.loc)
+			else
+				for(var/obj/item/I in src.loc)
+					T.borg_pickup(I)
+			return
 		return
 
 	if(istype(W, /obj/item/weapon/melee/energy/blade))
@@ -360,6 +368,14 @@
 		return
 
 	if(isrobot(user))
+		if (istype(W, /obj/item/weapon/tray))
+			var/obj/item/weapon/tray/T = W
+			if(T.carrying.len > 0)
+				T.borg_drop(src.loc)
+			else
+				for(var/obj/item/I in src.loc)
+					T.borg_pickup(I)
+			return
 		return
 	if(istype(W, /obj/item/weapon/melee/energy/blade))
 		var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
@@ -440,6 +456,14 @@
 				del(src)
 			return
 	if(isrobot(user))
+		if (istype(W, /obj/item/weapon/tray))
+			var/obj/item/weapon/tray/T = W
+			if(T.carrying.len > 0)
+				T.borg_drop(src.loc)
+			else
+				for(var/obj/item/I in src.loc)
+					T.borg_pickup(I)
+			return
 		return
 
 	if(istype(W, /obj/item/weapon/melee/energy/blade))
@@ -521,6 +545,14 @@
 		return
 
 	if(isrobot(user))
+		if (istype(W, /obj/item/weapon/tray))
+			var/obj/item/weapon/tray/T = W
+			if(T.carrying.len > 0)
+				T.borg_drop(src.loc)
+			else
+				for(var/obj/item/I in src.loc)
+					T.borg_pickup(I)
+			return
 		return
 	user.drop_item()
 	if(W && W.loc)	W.loc = src.loc

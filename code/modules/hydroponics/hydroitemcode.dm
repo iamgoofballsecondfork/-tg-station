@@ -105,6 +105,11 @@
 		new /obj/item/clothing/mask/cigarette/pipe/cobpipe (user.loc)
 		del(src)
 		return
+	if(istype(W,/obj/item/weapon/kitchenknife))
+		user.show_message("<span class='notice'>You make some filters out of the [src]!</span>")
+		for(var/i=0,i<5,i++)
+			new/obj/item/cigs/filter(src)
+		del(src)
 
 //Bluespace Tomatoes
 /obj/item/weapon/reagent_containers/food/snacks/grown/bluespacetomato/throw_impact(atom/hit_atom)

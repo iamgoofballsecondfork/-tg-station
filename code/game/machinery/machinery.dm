@@ -229,12 +229,18 @@ Class Procs:
 /obj/machinery/attackby(obj/item/weapon/W, mob/user)
 	if(hasmalfunction && machinehealth < 100) // no total check, allow some overheal on machines to encourage maintenance
 		if(istype(W, /obj/item/weapon/wrench))
-			machinehealth = machinehealth + rand(1,10)
-			user << "You do some maintenance on the machine"
-			if(machinehealth > 50 && (stat & (BROKEN)))
-				stat = stat - BROKEN
-				if(icon_state != original_icon_state)
-					icon_state = original_icon_state
+			user << "\blue You begin to do some maintenance on \the [src]..."
+			playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
+			if(do_after(user, 40))
+				user.visible_message( \
+				"[user] repairs \the [src].", \
+				"\blue You have repaired \the [src].", \
+				"You hear some clanging.")
+				machinehealth = machinehealth + rand(25,50)
+				if(machinehealth > 50 && (stat & (BROKEN)))
+					stat = stat & ~BROKEN //how does bit
+					if(icon_state != original_icon_state)
+						icon_state = original_icon_state
 
 /obj/machinery/attack_ai(mob/user as mob)
 	if(isrobot(user))

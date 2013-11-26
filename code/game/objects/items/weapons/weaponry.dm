@@ -15,6 +15,20 @@
 		viewers(user) << "\red <b>[user] is hitting \himself with the [src.name]! It looks like \he's trying to ban \himself from life.</b>"
 		return (BRUTELOSS|FIRELOSS|TOXLOSS|OXYLOSS)
 
+/obj/item/weapon/paperstar
+	desc = "a paper ninja star"
+	name = "paper ninja star"
+	icon = 'icons/obj/items.dmi'
+	icon_state = "paperstar"
+	flags = FPRINT | TABLEPASS
+	slot_flags = SLOT_BELT
+	throwforce = 1
+	force = 1
+	w_class = 1.0
+	throw_speed = 3
+	throw_range = 15
+	attack_verb = list("poked")
+
 /obj/item/weapon/nullrod
 	name = "null rod"
 	desc = "A rod of pure obsidian, its very presence disrupts and dampens the powers of Nar-Sie's followers."

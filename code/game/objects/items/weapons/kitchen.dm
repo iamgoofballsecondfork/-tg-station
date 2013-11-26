@@ -374,6 +374,30 @@
 			carrying.Add(I)
 			overlays += image("icon" = I.icon, "icon_state" = I.icon_state, "layer" = 30 + I.layer)
 
+/obj/item/weapon/tray/proc/borg_pickup(var/obj/item/I)
+	if( I != src && !I.anchored && !istype(I, /obj/item/clothing/under) && !istype(I, /obj/item/clothing/suit) && !istype(I, /obj/item/projectile))
+		I.loc = src
+		carrying.Add(I)
+		overlays += image("icon" = I.icon, "icon_state" = I.icon_state, "layer" = 30 + I.layer)
+
+
+/obj/item/weapon/tray/proc/borg_drop(var/turf/loc)
+	var/foundtable = 0
+	for(var/obj/structure/table/T in loc)
+		foundtable = 1
+		break
+	overlays.Cut()
+	for(var/obj/item/I in carrying)
+		I.loc = loc
+		carrying.Remove(I)
+		if(!foundtable && isturf(loc))
+			// if no table, presume that the person just shittily dropped the tray on the ground and made a mess everywhere!
+			spawn()
+				for(var/i = 1, i <= rand(1,2), i++)
+					if(I)
+						step(I, pick(NORTH,SOUTH,EAST,WEST))
+						sleep(rand(2,4))
+
 /obj/item/weapon/tray/dropped(mob/user)
 
 	var/mob/living/M

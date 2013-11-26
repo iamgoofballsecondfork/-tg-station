@@ -187,6 +187,16 @@
 		R.add_reagent("beer2", 50)
 		emag.name = "Mickey Finn's Special Brew"
 
+/obj/item/weapon/robot_module/cook
+	name = "chef robot module"
+
+	New()
+		..()
+		modules += new /obj/item/weapon/reagent_containers/food/condiment/enzyme(src)
+		modules += new /obj/item/weapon/reagent_containers/dropper(src)
+		modules += new /obj/item/weapon/tray(src)
+		modules += new /obj/item/weapon/kitchenknife(src)
+		modules += new /obj/item/weapon/reagent_containers/glass/beaker/large(src)
 
 /obj/item/weapon/robot_module/miner
 	name = "miner robot module"

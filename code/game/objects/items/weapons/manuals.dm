@@ -68,10 +68,10 @@
 				</html>"}
 
 /obj/item/weapon/book/manual/engineering_antimatter
-	name = "Antimatter User's Guide"
+	name = "Hadron and You, A Guide"
 	icon_state ="bookEngineering"
 	author = "Engineering Encyclopedia"		 // Who wrote the thing, can be changed by pen or PC. It is not automatically assigned
-	title = "Antimatter User's Guide"
+	title = "Hadron and You, A Guide"
 //big pile of shit below.
 
 	dat = {"<html>
@@ -91,23 +91,59 @@
 				<h4>Setting up</h4>
 
 				<ol>
-					<li><b>Place</b> all reactor sections into the mould</li>
-					<li>Use a <b>Multitool</b> to activate the sections</li>
-					<li>Acquire a <b>Containment Canister</b> from the <b>AntiGen 4000</b> in Storage</li>
-					<li>Insert the <b>Containment Canister</b> into the <b>Antimatter Control Unit</b></li>
+					<li><b>Obtain</b> a <b>Containment Canister</b> from the AntiGen4000</li>
+					<li><b>Insert</b> it into the <b>Collider Console</b></li>
+					<li><b>Toggle</b> the engine's power</li>
+					<li>Adjust the output until satisfactory power achieved.</li>
 				</ol>
 
 				<h4>Use</h4>
 
 				<ol>
-					<li>Open the <b>Antimatter Control Unit</b></li>
-					<li>Toggle the Engine to 'On'</li>
-					<li>Slowly increase the Injection amount to a satisfactory level</li>
-					<li><font color='red'><b>Injecting too much Antimatter may cause instability, this is indicated by an alarm going off</b></font></li>
+					<li>Watch the fuel levels carefully, dipping too low may result in unusual activity.</b></li>
+					<li><font color='red'><b>Do not overload the Collider at any cost.</b></font></li>
 				</ol>
 
 				</body>
 				</html>"}
+
+/obj/item/weapon/book/manual/engineering_maint
+	name = "Angry Machines - Why are they?"
+	icon_state ="bookEngineering"
+	author = "Engineering Encyclopedia"		 // Who wrote the thing, can be changed by pen or PC. It is not automatically assigned
+	title = "Angry Machines - Why are they?"
+//big pile of shit below.
+
+	dat = {"<html>
+				<head>
+				<style>
+				h1 {font-size: 18px; margin: 15px 0px 5px;}
+				h2 {font-size: 15px; margin: 15px 0px 5px;}
+				li {margin: 2px 0px 2px 15px;}
+				ul {list-style: none; margin: 5px; padding: 0px;}
+				ol {margin: 5px; padding: 0px 15px;}
+				</style>
+				</head>
+				<body>
+				<h3>Dealing with Broken or Malfunctioning Machines:</h3>
+
+				<h4>Malfunctioning:</h4>
+				<p>
+				<b>Step one:</b> Diagnose the issue: Is the machine acting unusual?<br>
+				<b>Step two:</b> Find a wrench.<br>
+				<b>Step three:</b> Hit the machine with that wrench.<br>
+				<b>Step four:</b> Go to step one.<br>
+				</p>
+
+				<h4>Broken:</h4>
+				<p>
+				<b>Step one:</b> Diagnose the issue: Is the machine acting not working?<br>
+				<b>Step two:</b> Find a wrench.<br>
+				<b>Step three:</b> See "Malfunctioning, Step Two - Step Four."<br>
+				</p>
+				</body>
+				</html>
+				"}
 
 /obj/item/weapon/book/manual/infections
 	name = "Infections - Making your own pandemic!"

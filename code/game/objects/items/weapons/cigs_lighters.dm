@@ -250,6 +250,15 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 	smoketime = 7200
 	chem_volume = 30
 
+/obj/item/clothing/mask/cigarette/cigar/havana
+	name = "Premium Havanian Cigar"
+	desc = "A cigar fit for only the best for the best."
+	icon_state = "cigar2off"
+	icon_on = "cigar2on"
+	icon_off = "cigar2off"
+	smoketime = 7200
+	chem_volume = 30
+
 /obj/item/weapon/cigbutt
 	name = "cigarette butt"
 	desc = "A manky old cigarette butt."

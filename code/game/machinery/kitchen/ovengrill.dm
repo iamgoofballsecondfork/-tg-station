@@ -11,6 +11,8 @@
 	flags = OPENCONTAINER | NOREACT
 	var/power = 1
 	var/on = 0
+	var/dirty = 0
+	var/broken = 0
 
 /obj/machinery/goven/verb/TogglePower()
 	set category = "Kitchen"
@@ -52,3 +54,6 @@
 				overlays += burnerd
 	else
 		on = 0
+
+/obj/machinery/goven/New()
+	create_reagents(100)

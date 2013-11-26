@@ -214,6 +214,25 @@ datum/objective/silence
 							return 0
 		return 1
 
+datum/objective/anger
+	explanation_text = "All you feel is hatred, seething hatred. It flows through your veins like it is your blood. Destroy everything, and everyone, and when nothing remains, escape the pain."
+
+	check_completion()
+		if(emergency_shuttle.location<2)
+			return 0
+
+		for(var/mob/living/player in player_list)
+			if(player == owner.current)
+				continue
+			if(player.mind)
+				if(player.stat != DEAD)
+					var/turf/T = get_turf(player)
+					if(!T)	continue
+					switch(T.loc.type)
+						if(/area/shuttle/escape/centcom, /area/shuttle/escape_pod1/centcom, /area/shuttle/escape_pod2/centcom, /area/shuttle/escape_pod3/centcom, /area/shuttle/escape_pod5/centcom)
+							return 0
+		return 1
+
 
 datum/objective/escape
 	explanation_text = "Escape on the shuttle or an escape pod alive."
