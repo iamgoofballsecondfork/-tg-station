@@ -47,7 +47,7 @@
 	var/gateways = list()
 
 /obj/effect/gateway/proc/connect_gateways()
-	gateways = locate(/obj/effect/gateway) in /obj/effect/
+	gateways = locate(/obj/effect/gateway) in world
 
 /obj/effect/gateway/proc/do_teleport(mob/M as mob|obj)
 	connect_gateways()

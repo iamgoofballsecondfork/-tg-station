@@ -226,65 +226,6 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 				break
 		screen = 1.4
 
-	else if(href_list["eject_item"]) //Eject the item inside the destructive analyzer.
-		if(linked_destroy)
-			if(linked_destroy.busy)
-				usr << "\red The destructive analyzer is busy at the moment."
-
-			else if(linked_destroy.loaded_item)
-				linked_destroy.loaded_item.loc = linked_destroy.loc
-				linked_destroy.loaded_item = null
-				linked_destroy.icon_state = "d_analyzer"
-				screen = 2.1
-
-	else if(href_list["deconstruct"]) //Deconstruct the item in the destructive analyzer and update the research holder.
-		if(linked_destroy)
-			if(linked_destroy.busy)
-				usr << "\red The destructive analyzer is busy at the moment."
-			else
-				var/choice = input("Proceeding will destroy loaded item.") in list("Proceed", "Cancel")
-				if(choice == "Cancel" || !linked_destroy) return
-				linked_destroy.busy = 1
-				screen = 0.1
-				updateUsrDialog()
-				flick("d_analyzer_process", linked_destroy)
-				spawn(24)
-					if(linked_destroy)
-						linked_destroy.busy = 0
-						if(!linked_destroy.hacked)
-							if(!linked_destroy.loaded_item)
-								usr <<"\red The destructive analyzer appears to be empty."
-								screen = 1.0
-								return
-							if(linked_destroy.loaded_item.reliability >= 90)
-								var/list/temp_tech = linked_destroy.ConvertReqString2List(linked_destroy.loaded_item.origin_tech)
-								for(var/T in temp_tech)
-									files.UpdateTech(T, temp_tech[T])
-							if(linked_destroy.loaded_item.reliability < 100 && linked_destroy.loaded_item.crit_fail)
-								files.UpdateDesign(linked_destroy.loaded_item.type)
-							if(linked_lathe) //Also sends salvaged materials to a linked protolathe, if any.
-								linked_lathe.m_amount += min((linked_lathe.max_material_storage - linked_lathe.TotalMaterials()), (linked_destroy.loaded_item.m_amt*linked_destroy.decon_mod))
-								linked_lathe.g_amount += min((linked_lathe.max_material_storage - linked_lathe.TotalMaterials()), (linked_destroy.loaded_item.g_amt*linked_destroy.decon_mod))
-							linked_destroy.loaded_item = null
-						for(var/obj/I in linked_destroy.contents)
-							for(var/mob/M in I.contents)
-								M.death()
-							if(istype(I,/obj/item/stack/sheet))//Only deconsturcts one sheet at a time instead of the entire stack
-								var/obj/item/stack/sheet/S = I
-								if(S.amount > 1)
-									S.amount--
-									linked_destroy.loaded_item = S
-								else
-									del(S)
-									linked_destroy.icon_state = "d_analyzer"
-							else
-								if(!(I in linked_destroy.component_parts))
-									del(I)
-									linked_destroy.icon_state = "d_analyzer"
-						use_power(250)
-						screen = 1.0
-						updateUsrDialog()
-
 	else if(href_list["lock"]) //Lock the console from use by anyone without tox access.
 		if(src.allowed(usr))
 			screen = text2num(href_list["lock"])
@@ -588,7 +529,6 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 			if(t_disk) dat += "<A href='?src=\ref[src];menu=1.2'>Disk Operations</A><BR>"
 			else if(d_disk) dat += "<A href='?src=\ref[src];menu=1.4'>Disk Operations</A><BR>"
 			else dat += "(Please Insert Disk)<BR>"
-			if(linked_destroy != null) dat += "<A href='?src=\ref[src];menu=2.2'>Destructive Analyzer Menu</A><BR>"
 			if(linked_lathe != null) dat += "<A href='?src=\ref[src];menu=3.1'>Protolathe Construction Menu</A><BR>"
 			if(linked_imprinter != null) dat += "<A href='?src=\ref[src];menu=4.1'>Circuit Construction Menu</A><BR>"
 			dat += "<A href='?src=\ref[src];menu=1.6'>Settings</A>"
@@ -686,26 +626,6 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 				dat += "* Circuit Imprinter <A href='?src=\ref[src];disconnect=imprinter'>(Disconnect)</A><BR>"
 			else
 				dat += "* (No Circuit Imprinter Linked)<BR>"
-
-		////////////////////DESTRUCTIVE ANALYZER SCREENS////////////////////////////
-		if(2.0)
-			dat += "NO DESTRUCTIVE ANALYZER LINKED TO CONSOLE<BR><BR>"
-			dat += "<A href='?src=\ref[src];menu=1.0'>Main Menu</A>"
-
-		if(2.1)
-			dat += "No Item Loaded. Standing-by...<BR><HR>"
-			dat += "<A href='?src=\ref[src];menu=1.0'>Main Menu</A>"
-
-		if(2.2)
-			dat += "<A href='?src=\ref[src];menu=1.0'>Main Menu</A><HR>"
-			dat += "Deconstruction Menu<HR>"
-			dat += "Name: [linked_destroy.loaded_item.name]<BR>"
-			dat += "Origin Tech:<BR>"
-			var/list/temp_tech = linked_destroy.ConvertReqString2List(linked_destroy.loaded_item.origin_tech)
-			for(var/T in temp_tech)
-				dat += "* [CallTechName(T)] [temp_tech[T]]<BR>"
-			dat += "<HR><A href='?src=\ref[src];deconstruct=1'>Deconstruct Item</A> || "
-			dat += "<A href='?src=\ref[src];eject_item=1'>Eject Item</A> || "
 
 		/////////////////////PROTOLATHE SCREENS/////////////////////////
 		if(3.0)

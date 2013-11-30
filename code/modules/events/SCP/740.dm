@@ -22,6 +22,7 @@
 		if(prob(25))
 			holder << "[pick("Your eyes are drawn towards","You cannot stop looking at", "You cannot resist")] the [src]"
 		holder.bodytemperature = holder.bodytemperature + rand(10,100)
+		holder.burn_skin(25)
 		holder.hallucination = holder.hallucination + rand(25,100)
 		if(holder.bodytemperature > 350)
 			holder.IgniteMob()
