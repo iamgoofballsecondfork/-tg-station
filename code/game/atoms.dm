@@ -17,9 +17,6 @@
 	// replaced by OPENCONTAINER flags and atom/proc/is_open_container()
 	///Chemistry.
 
-	//Detective Work, used for the duplicate data points kept in the scanners
-	var/list/original_atom
-
 /atom/proc/throw_impact(atom/hit_atom)
 	if(istype(hit_atom,/mob/living))
 		var/mob/living/M = hit_atom
@@ -214,7 +211,7 @@ its easier to just keep the beam vertical.
 
 	if (!( usr ))
 		return
-	usr << "That's \a [src]." //changed to "That's" from "This is" because "This is some metal sheets" sounds dumb compared to "That's some metal sheets" ~Carn
+	usr << "\icon[src]That's \a [src]." //changed to "That's" from "This is" because "This is some metal sheets" sounds dumb compared to "That's some metal sheets" ~Carn
 	if(desc)
 		usr << desc
 	// *****RM
@@ -350,3 +347,9 @@ var/list/blood_splatter_icons = list()
 
 /atom/proc/checkpass(passflag)
 	return pass_flags&passflag
+
+/atom/proc/isinspace()
+	if(istype(get_turf(src), /turf/space))
+		return 1
+	else
+		return 0

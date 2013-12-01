@@ -9,7 +9,7 @@
 
 
 /obj/mecha
-	name = "Mecha"
+	name = "mecha"
 	desc = "Exosuit"
 	icon = 'icons/mecha/mecha.dmi'
 	density = 1 //Dense. To raise the heat.
@@ -1093,6 +1093,9 @@
 	src.go_out()
 	add_fingerprint(usr)
 	return
+
+/obj/mecha/container_resist()
+	go_out()
 
 
 /obj/mecha/proc/go_out()

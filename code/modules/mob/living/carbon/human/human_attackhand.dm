@@ -79,8 +79,12 @@
 				visible_message("<span class='warning'>[M] has attempted to [attack_verb] [src]!</span>")
 				return 0
 
+			var/obj/item/organ/limb/affecting
+			if(!M.zone_sel)
+				affecting = get_organ()
+			else
+				affecting = get_organ(ran_zone(M.zone_sel.selecting))
 
-			var/obj/item/organ/limb/affecting = get_organ(ran_zone(M.zone_sel.selecting))
 			var/armor_block = run_armor_check(affecting, "melee")
 
 			if(HULK in M.mutations)
@@ -111,7 +115,11 @@
 
 			if(w_uniform)
 				w_uniform.add_fingerprint(M)
-			var/obj/item/organ/limb/affecting = get_organ(ran_zone(M.zone_sel.selecting))
+			var/obj/item/organ/limb/affecting
+			if(!M.zone_sel)
+				affecting = get_organ()
+			else
+				affecting = get_organ(ran_zone(M.zone_sel.selecting))
 			var/randn = rand(1, 100)
 			if(randn <= 25)
 				apply_effect(2, WEAKEN, run_armor_check(affecting, "melee"))

@@ -12,9 +12,9 @@
 	invisibility = 101
 
 	switch(name)			//some of these are probably obsolete
-		if("shuttle")
+		/*if("shuttle")
 			shuttle_z = z
-			del(src)
+			del(src)*/
 		if("monkey")
 			monkeystart += loc
 			del(src)

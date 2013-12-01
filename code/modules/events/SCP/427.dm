@@ -21,7 +21,7 @@
 			visible_message("<span class='danger'>The [src] glows brightly!</span>")
 		for(var/mob/living/M in view(7,holder))
 			M.heal_organ_damage(25, 25)
-			M.apply_effects(0, 0, 0, 25, 0, 0, 0, 0)
+			M.apply_effects(0, 0, 0, 100, 0, 0, 0, 0)
 			if(prob(1) && M.radiation > 75)
 				if(!(HULK in M.mutations) && M.mind)
 					M.mutations.Add(HULK)

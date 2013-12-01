@@ -25,6 +25,26 @@
 		del(I)
 	return null
 
+/proc/item2slot(obj/item/clothing/I)
+	switch(I.slot_flags)
+		if(SLOT_EARS)
+			return slot_ears
+		if(SLOT_EYES)
+			return slot_glasses
+		if(SLOT_GLOVES)
+			return slot_gloves
+		if(SLOT_HEAD)
+			return slot_head
+		if(SLOT_MASK)
+			return slot_wear_mask
+		if(SLOT_FEET)
+			return slot_shoes
+		if(SLOT_OCLOTHING)
+			return slot_wear_suit
+		if(SLOT_ICLOTHING)
+			return slot_w_uniform
+	return 0
+
 
 // Return the item currently in the slot ID
 /mob/living/carbon/human/get_item_by_slot(slot_id)

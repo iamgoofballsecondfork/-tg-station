@@ -749,12 +749,12 @@ datum/design/mech_grenade_launcher
 	category = "Exosuit Equipment"
 
 datum/design/clusterbang_launcher
-	name = "Exosuit Module Design (SOP-6 Clusterbang Launcher)"
-	desc = "A weapon that violates the Geneva Convention at 6 rounds per minute"
+	name = "Exosuit Module Design (SOB-3 Clusterbang Launcher)"
+	desc = "A weapon that violates the Geneva Convention at 3 rounds per minute"
 	id = "clusterbang_launcher"
 	build_type = MECHFAB
 	req_tech = list("combat"= 5, "materials" = 5, "syndicate" = 3)
-	build_path = "/obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack/flashbang/clusterbang/limited"
+	build_path = "/obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack/flashbang/clusterbang"
 	category = "Exosuit Equipment"
 
 datum/design/mech_wormhole_gen
@@ -900,10 +900,10 @@ datum/design/basic_capacitor
 	materials = list("$metal" = 50, "$glass" = 50)
 	build_path = "/obj/item/weapon/stock_parts/capacitor"
 
-datum/design/basic_sensor
-	name = "Basic Sensor Module"
+datum/design/basic_scanning
+	name = "Basic Scanning Module"
 	desc = "A stock part used in the construction of various devices."
-	id = "basic_sensor"
+	id = "basic_scanning"
 	req_tech = list("magnets" = 1)
 	build_type = PROTOLATHE | AUTOLATHE
 	materials = list("$metal" = 50, "$glass" = 20)
@@ -945,10 +945,10 @@ datum/design/adv_capacitor
 	materials = list("$metal" = 50, "$glass" = 50)
 	build_path = "/obj/item/weapon/stock_parts/capacitor/adv"
 
-datum/design/adv_sensor
-	name = "Advanced Sensor Module"
+datum/design/adv_scanning
+	name = "Advanced Scanning Module"
 	desc = "A stock part used in the construction of various devices."
-	id = "adv_sensor"
+	id = "adv_scanning"
 	req_tech = list("magnets" = 3)
 	build_type = PROTOLATHE
 	materials = list("$metal" = 50, "$glass" = 20)
@@ -991,10 +991,10 @@ datum/design/super_capacitor
 	materials = list("$metal" = 50, "$glass" = 50, "$gold" = 20)
 	build_path = "/obj/item/weapon/stock_parts/capacitor/super"
 
-datum/design/phasic_sensor
-	name = "Phasic Sensor Module"
+datum/design/phasic_scanning
+	name = "Phasic Scanning Module"
 	desc = "A stock part used in the construction of various devices."
-	id = "phasic_sensor"
+	id = "phasic_scanning"
 	req_tech = list("magnets" = 5, "materials" = 3)
 	build_type = PROTOLATHE
 	materials = list("$metal" = 50, "$glass" = 20, "$silver" = 10)
@@ -1482,7 +1482,16 @@ datum/design/ammo_9mm
 	req_tech = list("combat" = 4, "materials" = 3)
 	build_type = PROTOLATHE
 	materials = list("$metal" = 3750, "$silver" = 100)
-	build_path = "/obj/item/ammo_magazine/c9mm"
+	build_path = "/obj/item/ammo_box/c9mm"
+
+datum/design/mag_smg
+	name = "Submachine Gun Magazine (9mm)"
+	desc = "A prototype magazine for the submachine gun."
+	id = "mag_smg"
+	req_tech = list("combat" = 4, "materials" = 3)
+	build_type = PROTOLATHE
+	materials = list("$metal" = 3750, "$silver" = 100)
+	build_path = "/obj/item/ammo_box/magazine/msmg9mm"
 
 datum/design/stunshell
 	name = "Stun Shell"
@@ -1575,6 +1584,16 @@ datum/design/bag_holding
 	materials = list("$gold" = 3000, "$diamond" = 1500, "$uranium" = 250)
 	reliability_base = 80
 	build_path = "/obj/item/weapon/storage/backpack/holding"
+
+datum/design/bluespace_crystal
+	name = "Artificial Bluespace Crystal"
+	desc = "A small blue crystal with mystical properties."
+	id = "bluespace_crystal"
+	req_tech = list("bluespace" = 4, "materials" = 6)
+	build_type = PROTOLATHE
+	materials = list("$diamond" = 1500, "$plasma" = 1500)
+	reliability_base = 100
+	build_path = "/obj/item/bluespace_crystal/artificial"
 
 /////////////////////////////////////////
 /////////////////HUDs////////////////////

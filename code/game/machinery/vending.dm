@@ -571,9 +571,9 @@
 	icon_state = "sec"
 	icon_deny = "sec-deny"
 	req_access_txt = "1"
-	products = list(/obj/item/ammo_magazine/mc10mm = 16,/obj/item/ammo_casing/shotgun/beanbag = 32,
+	products = list(/obj/item/ammo_box/magazine/m10mm = 16,/obj/item/ammo_casing/shotgun/beanbag = 32,
 	 /obj/item/ammo_casing/shotgun/stunshell = 32)
-	contraband = list(/obj/item/ammo_magazine/c10mm = 8,/obj/item/ammo_casing/shotgun/dart = 16, /obj/item/ammo_casing/shotgun = 16)
+	contraband = list(/obj/item/ammo_box/magazine/m10mm = 8,/obj/item/ammo_casing/shotgun/dart = 16, /obj/item/ammo_casing/shotgun = 16)
 
 /obj/machinery/vending/hydronutrients
 	name = "\improper NutriMax"

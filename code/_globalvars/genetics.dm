@@ -22,4 +22,5 @@ var/NULLED_SE
 var/NULLED_UI
 
 var/list/global_mutations = list() // list of hidden mutation things
+var/list/reg_dna = list() // stop breaking things
 
